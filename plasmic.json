@@ -566,6 +566,20 @@
           "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicNavigationBar.module.css",
           "scheme": "blackbox",
           "componentType": "component"
+        },
+        {
+          "id": "Wcc0Zz6wewUE",
+          "name": "Middlewareprotected",
+          "type": "managed",
+          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
+          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicMiddlewareprotected.jsx",
+          "importSpec": {
+            "modulePath": "../pages/middlewareprotected.jsx"
+          },
+          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicMiddlewareprotected.module.css",
+          "scheme": "blackbox",
+          "componentType": "page",
+          "path": "/middlewareprotected"
         }
       ],
       "icons": [
