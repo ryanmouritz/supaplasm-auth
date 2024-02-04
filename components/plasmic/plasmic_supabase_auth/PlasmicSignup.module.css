@@ -51,7 +51,7 @@
   margin-top: 24px;
   min-width: 0;
 }
-.form:global(.__wab_instance) {
+.signupForm:global(.__wab_instance) {
   display: flex;
   flex-direction: column;
   position: relative;

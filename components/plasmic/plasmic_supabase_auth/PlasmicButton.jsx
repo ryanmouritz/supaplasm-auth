@@ -11,16 +11,20 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import * as p from "@plasmicapp/react-web";
-import * as ph from "@plasmicapp/react-web/lib/host";
-import * as pp from "@plasmicapp/react-web";
 import {
-  hasVariant,
+  PlasmicLink as PlasmicLink__,
+  Stack as Stack__,
   classNames,
   createPlasmicElementProxy,
-  useTrigger,
-  deriveRenderOpts
+  deriveRenderOpts,
+  hasVariant,
+  renderPlasmicSlot,
+  useCurrentUser,
+  useDollarState,
+  useTrigger
 } from "@plasmicapp/react-web";
+import { useDataEnv } from "@plasmicapp/react-web/lib/host";
+import * as pp from "@plasmicapp/react-web";
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -65,10 +69,10 @@ function PlasmicButton__RenderFunc(props) {
     ...variants
   };
   const __nextRouter = useNextRouter();
-  const $ctx = ph.useDataEnv?.() || {};
+  const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const currentUser = p.useCurrentUser?.() || {};
+  const currentUser = useCurrentUser?.() || {};
   const stateSpecs = React.useMemo(
     () => [
       {
@@ -111,7 +115,7 @@ function PlasmicButton__RenderFunc(props) {
 
     [$props, $ctx, $refs]
   );
-  const $state = p.useDollarState(stateSpecs, {
+  const $state = useDollarState(stateSpecs, {
     $props,
     $ctx,
     $queries: {},
@@ -125,7 +129,7 @@ function PlasmicButton__RenderFunc(props) {
     focusVisibleWithin_root: isRootFocusVisibleWithin
   };
   return (
-    <p.Stack
+    <Stack__
       as={"button"}
       data-plasmic-name={"root"}
       data-plasmic-override={overrides.root}
@@ -221,7 +225,7 @@ function PlasmicButton__RenderFunc(props) {
               hasVariant($state, "showStartIcon", "showStartIcon")
           })}
         >
-          {p.renderPlasmicSlot({
+          {renderPlasmicSlot({
             defaultContents: (
               <ChecksvgIcon
                 className={classNames(projectcss.all, sty.svg__cWIsK)}
@@ -313,7 +317,7 @@ function PlasmicButton__RenderFunc(props) {
           )
         })}
       >
-        {p.renderPlasmicSlot({
+        {renderPlasmicSlot({
           defaultContents: "Button",
           value: args.children,
           className: classNames(sty.slotTargetChildren, {
@@ -437,7 +441,7 @@ function PlasmicButton__RenderFunc(props) {
             )
           })}
         >
-          {p.renderPlasmicSlot({
+          {renderPlasmicSlot({
             defaultContents: (
               <IconIcon
                 className={classNames(projectcss.all, sty.svg__soMu)}
@@ -501,7 +505,7 @@ function PlasmicButton__RenderFunc(props) {
           })}
         </div>
       ) : null}
-    </p.Stack>
+    </Stack__>
   );
 }
 
@@ -524,7 +528,7 @@ function useBehavior(props, ref) {
     ref
   );
   if (b.plasmicProps.overrides.root.as === "a") {
-    b.plasmicProps.overrides.root.as = p.PlasmicLink;
+    b.plasmicProps.overrides.root.as = PlasmicLink__;
     b.plasmicProps.overrides.root.props.component = Link;
     b.plasmicProps.overrides.root.props.platform = "nextjs";
   }

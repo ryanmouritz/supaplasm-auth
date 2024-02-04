@@ -11,13 +11,13 @@
 import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import * as p from "@plasmicapp/react-web";
-import * as ph from "@plasmicapp/react-web/lib/host";
 import {
   classNames,
   createPlasmicElementProxy,
-  deriveRenderOpts
+  deriveRenderOpts,
+  useCurrentUser
 } from "@plasmicapp/react-web";
+import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
 import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
@@ -47,10 +47,11 @@ function PlasmicHomepage__RenderFunc(props) {
     ...variants
   };
   const __nextRouter = useNextRouter();
-  const $ctx = ph.useDataEnv?.() || {};
+  const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const currentUser = p.useCurrentUser?.() || {};
+  const $globalActions = useGlobalActions?.();
+  const currentUser = useCurrentUser?.() || {};
   return (
     <React.Fragment>
       <Head></Head>
@@ -80,13 +81,11 @@ function PlasmicHomepage__RenderFunc(props) {
           <section className={classNames(projectcss.all, sty.section__keS5F)}>
             <div className={classNames(projectcss.all, sty.freeBox__yfPvd)}>
               <h3
-                data-plasmic-name={"h3"}
-                data-plasmic-override={overrides.h3}
                 className={classNames(
                   projectcss.all,
                   projectcss.h3,
                   projectcss.__wab_text,
-                  sty.h3
+                  sty.h3__q9ZCr
                 )}
               >
                 <React.Fragment>
@@ -110,16 +109,65 @@ function PlasmicHomepage__RenderFunc(props) {
                 </React.Fragment>
               </h3>
               <div className={classNames(projectcss.all, sty.freeBox__qlxEb)}>
-                <Button
-                  className={classNames("__wab_instance", sty.button__kymI0)}
-                >
-                  {"Sign out"}
-                </Button>
-                <Button
-                  className={classNames("__wab_instance", sty.button__t4XqW)}
-                >
-                  {"Login"}
-                </Button>
+                {(() => {
+                  try {
+                    return $ctx.SupabaseUser.user.email != null;
+                  } catch (e) {
+                    if (
+                      e instanceof TypeError ||
+                      e?.plasmicType === "PlasmicUndefinedDataError"
+                    ) {
+                      return false;
+                    }
+                    throw e;
+                  }
+                })() ? (
+                  <Button
+                    className={classNames("__wab_instance", sty.button__kymI0)}
+                    onClick={async event => {
+                      const $steps = {};
+                      $steps["invokeGlobalAction"] = true
+                        ? (() => {
+                            const actionArgs = { args: [] };
+                            return $globalActions[
+                              "SupabaseUserGlobalContext.logout"
+                            ]?.apply(null, [...actionArgs.args]);
+                          })()
+                        : undefined;
+                      if (
+                        $steps["invokeGlobalAction"] != null &&
+                        typeof $steps["invokeGlobalAction"] === "object" &&
+                        typeof $steps["invokeGlobalAction"].then === "function"
+                      ) {
+                        $steps["invokeGlobalAction"] = await $steps[
+                          "invokeGlobalAction"
+                        ];
+                      }
+                    }}
+                  >
+                    {"Sign out"}
+                  </Button>
+                ) : null}
+                {(() => {
+                  try {
+                    return $ctx.SupabaseUser.user.email == null;
+                  } catch (e) {
+                    if (
+                      e instanceof TypeError ||
+                      e?.plasmicType === "PlasmicUndefinedDataError"
+                    ) {
+                      return true;
+                    }
+                    throw e;
+                  }
+                })() ? (
+                  <Button
+                    className={classNames("__wab_instance", sty.button__t4XqW)}
+                    link={`/login`}
+                  >
+                    {"Login"}
+                  </Button>
+                ) : null}
               </div>
             </div>
           </section>
@@ -189,17 +237,17 @@ function PlasmicHomepage__RenderFunc(props) {
                         projectcss.all,
                         projectcss.li,
                         projectcss.__wab_text,
-                        sty.li__dFkLn
+                        sty.li___1M291
                       )}
                     >
-                      {"Register an account with Email"}
+                      {"Register an account with Email "}
                     </li>
                     <li
                       className={classNames(
                         projectcss.all,
                         projectcss.li,
                         projectcss.__wab_text,
-                        sty.li__udqPz
+                        sty.li___5St8M
                       )}
                     >
                       {"Register an account with OAuth (e.g. Facebook)"}
@@ -212,9 +260,17 @@ function PlasmicHomepage__RenderFunc(props) {
                         sty.li__cj7A3
                       )}
                     >
-                      {
-                        "Login to an existing account created via email or OAuth"
-                      }
+                      {"Login to an existing account created via email"}
+                    </li>
+                    <li
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.li,
+                        projectcss.__wab_text,
+                        sty.li__bn4JM
+                      )}
+                    >
+                      {"Login to an existing account created via OAuth"}
                     </li>
                     <li
                       className={classNames(
@@ -345,7 +401,7 @@ function PlasmicHomepage__RenderFunc(props) {
                       )}
                     >
                       {
-                        "Attempt password reset of an OAuth created account (and if successful login via Email)"
+                        "Attempt password reset of an OAuth created account (and if successful login via Email )"
                       }
                     </li>
                   </ul>
@@ -354,6 +410,30 @@ function PlasmicHomepage__RenderFunc(props) {
                 <React.Fragment>{""}</React.Fragment>
               </React.Fragment>
             </div>
+            <h3
+              className={classNames(
+                projectcss.all,
+                projectcss.h3,
+                projectcss.__wab_text,
+                sty.h3___0U5Eu
+              )}
+            >
+              <React.Fragment>
+                {(() => {
+                  try {
+                    return $ctx.SupabaseUser.user.email;
+                  } catch (e) {
+                    if (
+                      e instanceof TypeError ||
+                      e?.plasmicType === "PlasmicUndefinedDataError"
+                    ) {
+                      return "You won't believe what happens next.";
+                    }
+                    throw e;
+                  }
+                })()}
+              </React.Fragment>
+            </h3>
           </section>
         </div>
       </div>
@@ -362,8 +442,7 @@ function PlasmicHomepage__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "h3", "h1", "text"],
-  h3: ["h3"],
+  root: ["root", "h1", "text"],
   h1: ["h1"],
   text: ["text"]
 };
@@ -400,7 +479,6 @@ export const PlasmicHomepage = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
-    h3: makeNodeComponent("h3"),
     h1: makeNodeComponent("h1"),
     text: makeNodeComponent("text"),
     // Metadata about props expected for PlasmicHomepage

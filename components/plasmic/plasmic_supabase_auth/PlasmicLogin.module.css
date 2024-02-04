@@ -8,6 +8,7 @@
   justify-items: center;
   justify-content: flex-start;
   align-items: center;
+  background: var(--token-Yq556PvPjGii);
   min-width: 0;
   min-height: 0;
   grid-template-columns:
@@ -45,7 +46,7 @@
   width: 100%;
   min-width: 0;
 }
-.form:global(.__wab_instance) {
+.loginForm:global(.__wab_instance) {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -58,7 +59,7 @@
   min-width: 0;
   padding: 8px;
 }
-.formField__dIvrL:global(.__wab_instance) {
+.formField__n5Ue:global(.__wab_instance) {
   width: 100%;
   margin-bottom: 24px;
   min-width: 0;
@@ -67,7 +68,7 @@
   max-width: 100%;
   object-fit: cover;
 }
-.formField__z5Mi:global(.__wab_instance) {
+.formField__pbmWv:global(.__wab_instance) {
   width: 100%;
   margin-bottom: 24px;
   min-width: 0;

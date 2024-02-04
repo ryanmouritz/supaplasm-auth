@@ -11,13 +11,13 @@
 import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import * as p from "@plasmicapp/react-web";
-import * as ph from "@plasmicapp/react-web/lib/host";
 import {
   classNames,
   createPlasmicElementProxy,
-  deriveRenderOpts
+  deriveRenderOpts,
+  useCurrentUser
 } from "@plasmicapp/react-web";
+import { useDataEnv } from "@plasmicapp/react-web/lib/host";
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -46,10 +46,10 @@ function PlasmicProtected__RenderFunc(props) {
     ...variants
   };
   const __nextRouter = useNextRouter();
-  const $ctx = ph.useDataEnv?.() || {};
+  const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const currentUser = p.useCurrentUser?.() || {};
+  const currentUser = useCurrentUser?.() || {};
   return (
     <React.Fragment>
       <Head></Head>
@@ -97,7 +97,25 @@ function PlasmicProtected__RenderFunc(props) {
               sty.text
             )}
           >
-            {"You can see it because you are logged in. Super secret stuff!"}
+            <React.Fragment>
+              {(() => {
+                try {
+                  return (
+                    "You can see it because you are logged in as " +
+                    $ctx.SupabaseUser.user.email +
+                    ". Super secret stuff!"
+                  );
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return "You can see it because you are logged in as . Super secret stuff!";
+                  }
+                  throw e;
+                }
+              })()}
+            </React.Fragment>
           </div>
         </div>
       </div>

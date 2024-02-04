@@ -11,13 +11,19 @@
 import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import * as p from "@plasmicapp/react-web";
-import * as ph from "@plasmicapp/react-web/lib/host";
 import {
+  Stack as Stack__,
   classNames,
   createPlasmicElementProxy,
-  deriveRenderOpts
+  deriveRenderOpts,
+  generateOnMutateForSpec,
+  generateStateOnChangePropForCodeComponents,
+  generateStateValueProp,
+  initializeCodeComponentStates,
+  useCurrentUser,
+  useDollarState
 } from "@plasmicapp/react-web";
+import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
 import Card from "../../Card"; // plasmic-import: DN4D9G0f1W-U/component
 import { FormWrapper } from "@plasmicpkgs/antd5/skinny/Form";
 import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
@@ -55,61 +61,62 @@ function PlasmicSignup__RenderFunc(props) {
     ...variants
   };
   const __nextRouter = useNextRouter();
-  const $ctx = ph.useDataEnv?.() || {};
+  const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const currentUser = p.useCurrentUser?.() || {};
+  const $globalActions = useGlobalActions?.();
+  const currentUser = useCurrentUser?.() || {};
   const stateSpecs = React.useMemo(
     () => [
       {
-        path: "form.value",
+        path: "signupForm.value",
         type: "private",
         variableType: "object",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        refName: "form",
-        onMutate: p.generateOnMutateForSpec("value", FormWrapper_Helpers)
+        refName: "signupForm",
+        onMutate: generateOnMutateForSpec("value", FormWrapper_Helpers)
       },
       {
-        path: "form.isSubmitting",
+        path: "signupForm.isSubmitting",
         type: "private",
         variableType: "boolean",
         initFunc: ({ $props, $state, $queries, $ctx }) => false,
-        refName: "form",
-        onMutate: p.generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
+        refName: "signupForm",
+        onMutate: generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
       },
       {
         path: "input.value",
         type: "private",
         variableType: "text",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        onMutate: p.generateOnMutateForSpec("value", AntdInput_Helpers)
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
       },
       {
         path: "input2.value",
         type: "private",
         variableType: "text",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        onMutate: p.generateOnMutateForSpec("value", AntdInput_Helpers)
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
       },
       {
         path: "input3.value",
         type: "private",
         variableType: "text",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        onMutate: p.generateOnMutateForSpec("value", AntdInput_Helpers)
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
       },
       {
         path: "passwordInput.value",
         type: "private",
         variableType: "text",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        onMutate: p.generateOnMutateForSpec("value", AntdPassword_Helpers)
+        onMutate: generateOnMutateForSpec("value", AntdPassword_Helpers)
       }
     ],
 
     [$props, $ctx, $refs]
   );
-  const $state = p.useDollarState(stateSpecs, {
+  const $state = useDollarState(stateSpecs, {
     $props,
     $ctx,
     $queries: {},
@@ -171,12 +178,12 @@ function PlasmicSignup__RenderFunc(props) {
             >
               {(() => {
                 const child$Props = {
-                  className: classNames("__wab_instance", sty.form),
+                  className: classNames("__wab_instance", sty.signupForm),
                   extendedOnValuesChange:
-                    p.generateStateOnChangePropForCodeComponents(
+                    generateStateOnChangePropForCodeComponents(
                       $state,
                       "value",
-                      ["form", "value"],
+                      ["signupForm", "value"],
                       FormWrapper_Helpers
                     ),
                   formItems: [
@@ -191,29 +198,80 @@ function PlasmicSignup__RenderFunc(props) {
                   labelCol: { span: 8, horizontalOnly: true },
                   layout: "vertical",
                   mode: "advanced",
+                  onFinish: async values => {
+                    const $steps = {};
+                    $steps["invokeGlobalAction"] = true
+                      ? (() => {
+                          const actionArgs = {
+                            args: [
+                              (() => {
+                                try {
+                                  return $state.signupForm.value.email;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return undefined;
+                                  }
+                                  throw e;
+                                }
+                              })(),
+                              (() => {
+                                try {
+                                  return $state.signupForm.value.password;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return undefined;
+                                  }
+                                  throw e;
+                                }
+                              })()
+                            ]
+                          };
+                          return $globalActions[
+                            "SupabaseUserGlobalContext.signup"
+                          ]?.apply(null, [...actionArgs.args]);
+                        })()
+                      : undefined;
+                    if (
+                      $steps["invokeGlobalAction"] != null &&
+                      typeof $steps["invokeGlobalAction"] === "object" &&
+                      typeof $steps["invokeGlobalAction"].then === "function"
+                    ) {
+                      $steps["invokeGlobalAction"] = await $steps[
+                        "invokeGlobalAction"
+                      ];
+                    }
+                  },
                   onIsSubmittingChange:
-                    p.generateStateOnChangePropForCodeComponents(
+                    generateStateOnChangePropForCodeComponents(
                       $state,
                       "isSubmitting",
-                      ["form", "isSubmitting"],
+                      ["signupForm", "isSubmitting"],
                       FormWrapper_Helpers
                     ),
                   ref: ref => {
-                    $refs["form"] = ref;
+                    $refs["signupForm"] = ref;
                   },
                   submitSlot: null,
                   wrapperCol: { span: 16, horizontalOnly: true }
                 };
-                p.initializeCodeComponentStates(
+                initializeCodeComponentStates(
                   $state,
                   [
                     {
                       name: "value",
-                      plasmicStateName: "form.value"
+                      plasmicStateName: "signupForm.value"
                     },
                     {
                       name: "isSubmitting",
-                      plasmicStateName: "form.isSubmitting"
+                      plasmicStateName: "signupForm.isSubmitting"
                     }
                   ],
 
@@ -223,11 +281,11 @@ function PlasmicSignup__RenderFunc(props) {
                 );
                 return (
                   <FormWrapper
-                    data-plasmic-name={"form"}
-                    data-plasmic-override={overrides.form}
+                    data-plasmic-name={"signupForm"}
+                    data-plasmic-override={overrides.signupForm}
                     {...child$Props}
                   >
-                    <p.Stack
+                    <Stack__
                       as={"div"}
                       hasGap={true}
                       className={classNames(projectcss.all, sty.freeBox__xZw8Z)}
@@ -244,18 +302,18 @@ function PlasmicSignup__RenderFunc(props) {
                           const child$Props = {
                             className: classNames("__wab_instance", sty.input),
                             onChange:
-                              p.generateStateOnChangePropForCodeComponents(
+                              generateStateOnChangePropForCodeComponents(
                                 $state,
                                 "value",
                                 ["input", "value"],
                                 AntdInput_Helpers
                               ),
-                            value: p.generateStateValueProp($state, [
+                            value: generateStateValueProp($state, [
                               "input",
                               "value"
                             ])
                           };
-                          p.initializeCodeComponentStates(
+                          initializeCodeComponentStates(
                             $state,
                             [
                               {
@@ -289,18 +347,18 @@ function PlasmicSignup__RenderFunc(props) {
                           const child$Props = {
                             className: classNames("__wab_instance", sty.input2),
                             onChange:
-                              p.generateStateOnChangePropForCodeComponents(
+                              generateStateOnChangePropForCodeComponents(
                                 $state,
                                 "value",
                                 ["input2", "value"],
                                 AntdInput_Helpers
                               ),
-                            value: p.generateStateValueProp($state, [
+                            value: generateStateValueProp($state, [
                               "input2",
                               "value"
                             ])
                           };
-                          p.initializeCodeComponentStates(
+                          initializeCodeComponentStates(
                             $state,
                             [
                               {
@@ -322,7 +380,7 @@ function PlasmicSignup__RenderFunc(props) {
                           );
                         })()}
                       </FormItemWrapper>
-                    </p.Stack>
+                    </Stack__>
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
@@ -334,19 +392,18 @@ function PlasmicSignup__RenderFunc(props) {
                       {(() => {
                         const child$Props = {
                           className: classNames("__wab_instance", sty.input3),
-                          onChange:
-                            p.generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "value",
-                              ["input3", "value"],
-                              AntdInput_Helpers
-                            ),
-                          value: p.generateStateValueProp($state, [
+                          onChange: generateStateOnChangePropForCodeComponents(
+                            $state,
+                            "value",
+                            ["input3", "value"],
+                            AntdInput_Helpers
+                          ),
+                          value: generateStateValueProp($state, [
                             "input3",
                             "value"
                           ])
                         };
-                        p.initializeCodeComponentStates(
+                        initializeCodeComponentStates(
                           $state,
                           [
                             {
@@ -383,19 +440,18 @@ function PlasmicSignup__RenderFunc(props) {
                             "__wab_instance",
                             sty.passwordInput
                           ),
-                          onChange:
-                            p.generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "value",
-                              ["passwordInput", "value"],
-                              AntdPassword_Helpers
-                            ),
-                          value: p.generateStateValueProp($state, [
+                          onChange: generateStateOnChangePropForCodeComponents(
+                            $state,
+                            "value",
+                            ["passwordInput", "value"],
+                            AntdPassword_Helpers
+                          ),
+                          value: generateStateValueProp($state, [
                             "passwordInput",
                             "value"
                           ])
                         };
-                        p.initializeCodeComponentStates(
+                        initializeCodeComponentStates(
                           $state,
                           [
                             {
@@ -453,7 +509,7 @@ const PlasmicDescendants = {
     "root",
     "h3",
     "card",
-    "form",
+    "signupForm",
     "input",
     "input2",
     "input3",
@@ -465,7 +521,7 @@ const PlasmicDescendants = {
   h3: ["h3"],
   card: [
     "card",
-    "form",
+    "signupForm",
     "input",
     "input2",
     "input3",
@@ -474,8 +530,8 @@ const PlasmicDescendants = {
     "text"
   ],
 
-  form: [
-    "form",
+  signupForm: [
+    "signupForm",
     "input",
     "input2",
     "input3",
@@ -526,7 +582,7 @@ export const PlasmicSignup = Object.assign(
     // Helper components rendering sub-elements
     h3: makeNodeComponent("h3"),
     card: makeNodeComponent("card"),
-    form: makeNodeComponent("form"),
+    signupForm: makeNodeComponent("signupForm"),
     input: makeNodeComponent("input"),
     input2: makeNodeComponent("input2"),
     input3: makeNodeComponent("input3"),

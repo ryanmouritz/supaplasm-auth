@@ -528,12 +528,26 @@
         },
         {
           "id": "lyRPxJUdp0SU",
+          "name": "ResetPassword",
+          "type": "managed",
+          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
+          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicResetPassword.jsx",
+          "importSpec": {
+            "modulePath": "../pages/resetpassword.jsx"
+          },
+          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicResetPassword.module.css",
+          "scheme": "blackbox",
+          "componentType": "page",
+          "path": "/change-password"
+        },
+        {
+          "id": "hImsFKgCrESY",
           "name": "ChangePassword",
           "type": "managed",
           "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
           "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicChangePassword.jsx",
           "importSpec": {
-            "modulePath": "../pages/change-password.jsx"
+            "modulePath": "../pages/changepassword.jsx"
           },
           "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicChangePassword.module.css",
           "scheme": "blackbox",
@@ -569,6 +583,12 @@
           "name": "Fetcher",
           "displayName": "plasmic-data-source-fetcher",
           "componentImportPath": "@plasmicapp/react-web/lib/data-sources"
+        },
+        {
+          "id": "WiE-mY-Be4JV",
+          "name": "SupabaseUser",
+          "displayName": "SupabaseUserGlobalContext",
+          "componentImportPath": "./components/SupabaseUserProvider"
         }
       ],
       "customFunctions": []

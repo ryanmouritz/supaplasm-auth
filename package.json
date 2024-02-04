@@ -10,14 +10,18 @@
   },
   "dependencies": {
     "@plasmicapp/cli": "^0.1.326",
-    "@plasmicapp/react-web": "^0.2.315",
+    "@plasmicapp/react-web": "^0.2.318",
     "@plasmicpkgs/antd5": "^0.0.210",
+    "@supabase/ssr": "^0.0.10",
+    "@supabase/supabase-js": "^2.39.3",
     "next": "14.1.0",
     "node": "^21.6.1",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/node": "20.11.7",
+    "@types/react": "18.2.48",
     "eslint": "^8",
     "eslint-config-next": "14.1.0"
   }

@@ -11,13 +11,17 @@
 import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import * as p from "@plasmicapp/react-web";
-import * as ph from "@plasmicapp/react-web/lib/host";
 import {
   classNames,
   createPlasmicElementProxy,
-  deriveRenderOpts
+  deriveRenderOpts,
+  generateOnMutateForSpec,
+  generateStateOnChangePropForCodeComponents,
+  initializeCodeComponentStates,
+  useCurrentUser,
+  useDollarState
 } from "@plasmicapp/react-web";
+import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
 import Card from "../../Card"; // plasmic-import: DN4D9G0f1W-U/component
 import { FormWrapper } from "@plasmicpkgs/antd5/skinny/Form";
 import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
@@ -53,33 +57,34 @@ function PlasmicLogin__RenderFunc(props) {
     ...variants
   };
   const __nextRouter = useNextRouter();
-  const $ctx = ph.useDataEnv?.() || {};
+  const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const currentUser = p.useCurrentUser?.() || {};
+  const $globalActions = useGlobalActions?.();
+  const currentUser = useCurrentUser?.() || {};
   const stateSpecs = React.useMemo(
     () => [
       {
-        path: "form.value",
+        path: "loginForm.value",
         type: "private",
         variableType: "object",
         initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
-        refName: "form",
-        onMutate: p.generateOnMutateForSpec("value", FormWrapper_Helpers)
+        refName: "loginForm",
+        onMutate: generateOnMutateForSpec("value", FormWrapper_Helpers)
       },
       {
-        path: "form.isSubmitting",
+        path: "loginForm.isSubmitting",
         type: "private",
         variableType: "boolean",
         initFunc: ({ $props, $state, $queries, $ctx }) => false,
-        refName: "form",
-        onMutate: p.generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
+        refName: "loginForm",
+        onMutate: generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
       }
     ],
 
     [$props, $ctx, $refs]
   );
-  const $state = p.useDollarState(stateSpecs, {
+  const $state = useDollarState(stateSpecs, {
     $props,
     $ctx,
     $queries: {},
@@ -153,40 +158,91 @@ function PlasmicLogin__RenderFunc(props) {
             >
               {(() => {
                 const child$Props = {
-                  className: classNames("__wab_instance", sty.form),
+                  className: classNames("__wab_instance", sty.loginForm),
                   extendedOnValuesChange:
-                    p.generateStateOnChangePropForCodeComponents(
+                    generateStateOnChangePropForCodeComponents(
                       $state,
                       "value",
-                      ["form", "value"],
+                      ["loginForm", "value"],
                       FormWrapper_Helpers
                     ),
                   formItems: undefined,
                   labelCol: { span: 8, horizontalOnly: true },
                   layout: "vertical",
                   mode: undefined,
+                  onFinish: async values => {
+                    const $steps = {};
+                    $steps["invokeGlobalAction"] = true
+                      ? (() => {
+                          const actionArgs = {
+                            args: [
+                              (() => {
+                                try {
+                                  return $state.loginForm.value.email;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return undefined;
+                                  }
+                                  throw e;
+                                }
+                              })(),
+                              (() => {
+                                try {
+                                  return $state.loginForm.value.password;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return undefined;
+                                  }
+                                  throw e;
+                                }
+                              })()
+                            ]
+                          };
+                          return $globalActions[
+                            "SupabaseUserGlobalContext.login"
+                          ]?.apply(null, [...actionArgs.args]);
+                        })()
+                      : undefined;
+                    if (
+                      $steps["invokeGlobalAction"] != null &&
+                      typeof $steps["invokeGlobalAction"] === "object" &&
+                      typeof $steps["invokeGlobalAction"].then === "function"
+                    ) {
+                      $steps["invokeGlobalAction"] = await $steps[
+                        "invokeGlobalAction"
+                      ];
+                    }
+                  },
                   onIsSubmittingChange:
-                    p.generateStateOnChangePropForCodeComponents(
+                    generateStateOnChangePropForCodeComponents(
                       $state,
                       "isSubmitting",
-                      ["form", "isSubmitting"],
+                      ["loginForm", "isSubmitting"],
                       FormWrapper_Helpers
                     ),
                   ref: ref => {
-                    $refs["form"] = ref;
+                    $refs["loginForm"] = ref;
                   },
                   wrapperCol: { span: 16, horizontalOnly: true }
                 };
-                p.initializeCodeComponentStates(
+                initializeCodeComponentStates(
                   $state,
                   [
                     {
                       name: "value",
-                      plasmicStateName: "form.value"
+                      plasmicStateName: "loginForm.value"
                     },
                     {
                       name: "isSubmitting",
-                      plasmicStateName: "form.isSubmitting"
+                      plasmicStateName: "loginForm.isSubmitting"
                     }
                   ],
 
@@ -196,14 +252,14 @@ function PlasmicLogin__RenderFunc(props) {
                 );
                 return (
                   <FormWrapper
-                    data-plasmic-name={"form"}
-                    data-plasmic-override={overrides.form}
+                    data-plasmic-name={"loginForm"}
+                    data-plasmic-override={overrides.loginForm}
                     {...child$Props}
                   >
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__dIvrL
+                        sty.formField__n5Ue
                       )}
                       label={"Email"}
                       name={"email"}
@@ -215,7 +271,7 @@ function PlasmicLogin__RenderFunc(props) {
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__z5Mi
+                        sty.formField__pbmWv
                       )}
                       label={"Password"}
                       name={"password"}
@@ -260,7 +316,7 @@ const PlasmicDescendants = {
     "freeBox",
     "h3",
     "card",
-    "form",
+    "loginForm",
     "input",
     "passwordInput",
     "button",
@@ -271,7 +327,7 @@ const PlasmicDescendants = {
     "freeBox",
     "h3",
     "card",
-    "form",
+    "loginForm",
     "input",
     "passwordInput",
     "button",
@@ -279,8 +335,8 @@ const PlasmicDescendants = {
   ],
 
   h3: ["h3"],
-  card: ["card", "form", "input", "passwordInput", "button", "text"],
-  form: ["form", "input", "passwordInput", "button", "text"],
+  card: ["card", "loginForm", "input", "passwordInput", "button", "text"],
+  loginForm: ["loginForm", "input", "passwordInput", "button", "text"],
   input: ["input"],
   passwordInput: ["passwordInput"],
   button: ["button", "text"],
@@ -322,7 +378,7 @@ export const PlasmicLogin = Object.assign(
     freeBox: makeNodeComponent("freeBox"),
     h3: makeNodeComponent("h3"),
     card: makeNodeComponent("card"),
-    form: makeNodeComponent("form"),
+    loginForm: makeNodeComponent("loginForm"),
     input: makeNodeComponent("input"),
     passwordInput: makeNodeComponent("passwordInput"),
     button: makeNodeComponent("button"),
