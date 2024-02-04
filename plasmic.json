@@ -553,6 +553,19 @@
           "scheme": "blackbox",
           "componentType": "page",
           "path": "/change-password"
+        },
+        {
+          "id": "0W22cQAiPzr5",
+          "name": "NavigationBar",
+          "type": "managed",
+          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
+          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicNavigationBar.jsx",
+          "importSpec": {
+            "modulePath": "NavigationBar.jsx"
+          },
+          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicNavigationBar.module.css",
+          "scheme": "blackbox",
+          "componentType": "component"
         }
       ],
       "icons": [

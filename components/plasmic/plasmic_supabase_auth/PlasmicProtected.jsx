@@ -18,6 +18,7 @@ import {
   useCurrentUser
 } from "@plasmicapp/react-web";
 import { useDataEnv } from "@plasmicapp/react-web/lib/host";
+import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -76,6 +77,12 @@ function PlasmicProtected__RenderFunc(props) {
             sty.root
           )}
         >
+          <NavigationBar
+            data-plasmic-name={"navigationBar"}
+            data-plasmic-override={overrides.navigationBar}
+            className={classNames("__wab_instance", sty.navigationBar)}
+          />
+
           <h3
             data-plasmic-name={"h3"}
             data-plasmic-override={overrides.h3}
@@ -124,7 +131,8 @@ function PlasmicProtected__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "h3", "text"],
+  root: ["root", "navigationBar", "h3", "text"],
+  navigationBar: ["navigationBar"],
   h3: ["h3"],
   text: ["text"]
 };
@@ -161,6 +169,7 @@ export const PlasmicProtected = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
+    navigationBar: makeNodeComponent("navigationBar"),
     h3: makeNodeComponent("h3"),
     text: makeNodeComponent("text"),
     // Metadata about props expected for PlasmicProtected

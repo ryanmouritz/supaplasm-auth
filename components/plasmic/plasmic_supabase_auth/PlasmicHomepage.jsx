@@ -17,8 +17,8 @@ import {
   deriveRenderOpts,
   useCurrentUser
 } from "@plasmicapp/react-web";
-import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
-import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
+import { useDataEnv } from "@plasmicapp/react-web/lib/host";
+import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -50,7 +50,6 @@ function PlasmicHomepage__RenderFunc(props) {
   const $ctx = useDataEnv?.() || {};
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
-  const $globalActions = useGlobalActions?.();
   const currentUser = useCurrentUser?.() || {};
   return (
     <React.Fragment>
@@ -78,100 +77,17 @@ function PlasmicHomepage__RenderFunc(props) {
             sty.root
           )}
         >
-          <section className={classNames(projectcss.all, sty.section__keS5F)}>
-            <div className={classNames(projectcss.all, sty.freeBox__yfPvd)}>
-              <h3
-                className={classNames(
-                  projectcss.all,
-                  projectcss.h3,
-                  projectcss.__wab_text,
-                  sty.h3__q9ZCr
-                )}
-              >
-                <React.Fragment>
-                  <span
-                    className={"plasmic_default__all plasmic_default__span"}
-                    style={{
-                      fontStyle: "italic",
-                      fontWeight: 700,
-                      color: "#77FE9C"
-                    }}
-                  >
-                    {"supaplasm."}
-                  </span>
-                  <React.Fragment>{""}</React.Fragment>
-                  <span
-                    className={"plasmic_default__all plasmic_default__span"}
-                    style={{ fontWeight: 700, fontStyle: "italic" }}
-                  >
-                    {"auth"}
-                  </span>
-                </React.Fragment>
-              </h3>
-              <div className={classNames(projectcss.all, sty.freeBox__qlxEb)}>
-                {(() => {
-                  try {
-                    return $ctx.SupabaseUser.user.email != null;
-                  } catch (e) {
-                    if (
-                      e instanceof TypeError ||
-                      e?.plasmicType === "PlasmicUndefinedDataError"
-                    ) {
-                      return false;
-                    }
-                    throw e;
-                  }
-                })() ? (
-                  <Button
-                    className={classNames("__wab_instance", sty.button__kymI0)}
-                    onClick={async event => {
-                      const $steps = {};
-                      $steps["invokeGlobalAction"] = true
-                        ? (() => {
-                            const actionArgs = { args: [] };
-                            return $globalActions[
-                              "SupabaseUserGlobalContext.logout"
-                            ]?.apply(null, [...actionArgs.args]);
-                          })()
-                        : undefined;
-                      if (
-                        $steps["invokeGlobalAction"] != null &&
-                        typeof $steps["invokeGlobalAction"] === "object" &&
-                        typeof $steps["invokeGlobalAction"].then === "function"
-                      ) {
-                        $steps["invokeGlobalAction"] = await $steps[
-                          "invokeGlobalAction"
-                        ];
-                      }
-                    }}
-                  >
-                    {"Sign out"}
-                  </Button>
-                ) : null}
-                {(() => {
-                  try {
-                    return $ctx.SupabaseUser.user.email == null;
-                  } catch (e) {
-                    if (
-                      e instanceof TypeError ||
-                      e?.plasmicType === "PlasmicUndefinedDataError"
-                    ) {
-                      return true;
-                    }
-                    throw e;
-                  }
-                })() ? (
-                  <Button
-                    className={classNames("__wab_instance", sty.button__t4XqW)}
-                    link={`/login`}
-                  >
-                    {"Login"}
-                  </Button>
-                ) : null}
-              </div>
-            </div>
-          </section>
-          <section className={classNames(projectcss.all, sty.section__d4A5)}>
+          <NavigationBar
+            data-plasmic-name={"navigationBar"}
+            data-plasmic-override={overrides.navigationBar}
+            className={classNames("__wab_instance", sty.navigationBar)}
+          />
+
+          <section
+            data-plasmic-name={"section"}
+            data-plasmic-override={overrides.section}
+            className={classNames(projectcss.all, sty.section)}
+          >
             <h1
               data-plasmic-name={"h1"}
               data-plasmic-override={overrides.h1}
@@ -411,11 +327,13 @@ function PlasmicHomepage__RenderFunc(props) {
               </React.Fragment>
             </div>
             <h3
+              data-plasmic-name={"h3"}
+              data-plasmic-override={overrides.h3}
               className={classNames(
                 projectcss.all,
                 projectcss.h3,
                 projectcss.__wab_text,
-                sty.h3___0U5Eu
+                sty.h3
               )}
             >
               <React.Fragment>
@@ -442,9 +360,12 @@ function PlasmicHomepage__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "h1", "text"],
+  root: ["root", "navigationBar", "section", "h1", "text", "h3"],
+  navigationBar: ["navigationBar"],
+  section: ["section", "h1", "text", "h3"],
   h1: ["h1"],
-  text: ["text"]
+  text: ["text"],
+  h3: ["h3"]
 };
 
 function makeNodeComponent(nodeName) {
@@ -479,8 +400,11 @@ export const PlasmicHomepage = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
+    navigationBar: makeNodeComponent("navigationBar"),
+    section: makeNodeComponent("section"),
     h1: makeNodeComponent("h1"),
     text: makeNodeComponent("text"),
+    h3: makeNodeComponent("h3"),
     // Metadata about props expected for PlasmicHomepage
     internalVariantProps: PlasmicHomepage__VariantProps,
     internalArgProps: PlasmicHomepage__ArgProps,

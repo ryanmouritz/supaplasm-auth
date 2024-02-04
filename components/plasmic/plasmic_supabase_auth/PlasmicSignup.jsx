@@ -24,6 +24,7 @@ import {
   useDollarState
 } from "@plasmicapp/react-web";
 import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
+import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
 import Card from "../../Card"; // plasmic-import: DN4D9G0f1W-U/component
 import { FormWrapper } from "@plasmicpkgs/antd5/skinny/Form";
 import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
@@ -148,6 +149,12 @@ function PlasmicSignup__RenderFunc(props) {
             sty.root
           )}
         >
+          <NavigationBar
+            data-plasmic-name={"navigationBar"}
+            data-plasmic-override={overrides.navigationBar}
+            className={classNames("__wab_instance", sty.navigationBar)}
+          />
+
           <div className={classNames(projectcss.all, sty.freeBox__lytFo)}>
             <h3
               data-plasmic-name={"h3"}
@@ -507,6 +514,7 @@ function PlasmicSignup__RenderFunc(props) {
 const PlasmicDescendants = {
   root: [
     "root",
+    "navigationBar",
     "h3",
     "card",
     "signupForm",
@@ -518,6 +526,7 @@ const PlasmicDescendants = {
     "text"
   ],
 
+  navigationBar: ["navigationBar"],
   h3: ["h3"],
   card: [
     "card",
@@ -580,6 +589,7 @@ export const PlasmicSignup = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
+    navigationBar: makeNodeComponent("navigationBar"),
     h3: makeNodeComponent("h3"),
     card: makeNodeComponent("card"),
     signupForm: makeNodeComponent("signupForm"),

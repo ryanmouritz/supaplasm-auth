@@ -23,6 +23,7 @@ import {
   useDollarState
 } from "@plasmicapp/react-web";
 import { useDataEnv, useGlobalActions } from "@plasmicapp/react-web/lib/host";
+import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
 import Card from "../../Card"; // plasmic-import: DN4D9G0f1W-U/component
 import { FormWrapper } from "@plasmicpkgs/antd5/skinny/Form";
 import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
@@ -154,6 +155,12 @@ function PlasmicChangePassword__RenderFunc(props) {
             sty.root
           )}
         >
+          <NavigationBar
+            data-plasmic-name={"navigationBar"}
+            data-plasmic-override={overrides.navigationBar}
+            className={classNames("__wab_instance", sty.navigationBar)}
+          />
+
           <div
             data-plasmic-name={"freeBox"}
             data-plasmic-override={overrides.freeBox}
@@ -499,6 +506,7 @@ function PlasmicChangePassword__RenderFunc(props) {
 const PlasmicDescendants = {
   root: [
     "root",
+    "navigationBar",
     "freeBox",
     "h3",
     "card",
@@ -510,6 +518,7 @@ const PlasmicDescendants = {
     "text"
   ],
 
+  navigationBar: ["navigationBar"],
   freeBox: [
     "freeBox",
     "h3",
@@ -573,6 +582,7 @@ export const PlasmicChangePassword = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
+    navigationBar: makeNodeComponent("navigationBar"),
     freeBox: makeNodeComponent("freeBox"),
     h3: makeNodeComponent("h3"),
     card: makeNodeComponent("card"),
