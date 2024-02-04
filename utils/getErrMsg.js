@@ -1,4 +1,4 @@
-export default function getErrMsg(e : any) {
+export default function getErrMsg(e) {
     if(e && 'message' in e) {
       return e.message
     } else if(typeof e === 'string') {
