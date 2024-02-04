@@ -1,4 +1,4 @@
-import { useSafeRouter as useRouter } from "@/utils/useSafeRouter.ts";
+import { useSafeRouter as useRouter } from "@/utils/useSafeRouter";
 import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
 import { useState, useEffect, useCallback, useMemo, Component } from "react";
 // import supabaseBrowserClient from "@/utils/supabaseBrowserClient"; // legacy import that adapted the supabaseBrowserClient to accept a "Simulated User" from the Plasmic Studio
