@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
 import { useState, useEffect, useCallback, useMemo, Component } from "react";
 // import supabaseBrowserClient from "@/utils/supabaseBrowserClient"; // legacy import that adapted the supabaseBrowserClient to accept a "Simulated User" from the Plasmic Studio
-import { createClient } from '../utils/supabase/component'
-import getErrMsg from "../utils/getErrMsg";
+import { createClient } from '@/utils/supabase/component'
+import getErrMsg from "@/utils/getErrMsg";
 import { create } from "domain";
 
 
