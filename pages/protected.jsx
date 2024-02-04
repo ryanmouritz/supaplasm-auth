@@ -5,9 +5,9 @@ import * as React from "react";
 import * as ph from "@plasmicapp/react-web/lib/host";
 import GlobalContextsProvider from "../components/plasmic/plasmic_supabase_auth/PlasmicGlobalContextsProvider";
 import { PlasmicProtected } from "../components/plasmic/plasmic_supabase_auth/PlasmicProtected";
-import { useSafeRouter as useRouter } from "@/utils/useSafeRouter";
 
-import { createClient } from '@/utils/supabase/server-props'
+import { createClient } from '../utils/supabase/server-props'
+import { useRouter } from "next/router";
 
 export default function Protected( data ) {
   // Use PlasmicProtected to render this component as it was
