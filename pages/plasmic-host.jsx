@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
-import { SupabaseUser } from "../components/SupabaseUserProvider.tsx";
+import { SupabaseUser } from "../components/SupabaseUserProvider";
 
 registerGlobalContext(SupabaseUser, {
     name: "SupabaseUserGlobalContext",

@@ -3,42 +3,18 @@ import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
 import { useState, useEffect, useCallback, useMemo, Component } from "react";
 // import supabaseBrowserClient from "@/utils/supabaseBrowserClient"; // legacy import that adapted the supabaseBrowserClient to accept a "Simulated User" from the Plasmic Studio
 import { createClient } from '@/utils/supabase/component'
-import type { Json } from "@/types/supabase";
 import getErrMsg from "@/utils/getErrMsg";
 import { create } from "domain";
 
-type User = {
-  email: string | null;
-  role: string | null;
-  user_metadata: Json | null;
-};
 
-interface DataProviderData {
-  user: User | null;
-  simulateUserSettings: {
-    simulateLoggedInUser: boolean;
-    email: string | null;
-    password: string | null;
-  };
-  error: string | null;
-}
-
-interface SupabaseUserComponentProps {
-  children: React.ReactNode;
-  redirectOnLoginSuccess?: string;
-  simulateLoggedInUser: boolean;
-  email: string | null;
-  password: string | null;
-}
-
-export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedInUser, email, password}: SupabaseUserComponentProps) => {
+export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedInUser, email, password}) => {
 
   //Nextjs router
   const router = useRouter();
   
   //Setup state
-  const [session, setSession] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [session, setSession] = useState(null);
+  const [error, setError] = useState(null);
 
   const [simulateUserSettings, setSimulateUserSettings] = useState({
     simulateLoggedInUser: simulateLoggedInUser,
@@ -74,8 +50,8 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
           "You must provide an email and password to simulate a logged in user (Project settings -> SupabaseUser)"
         );
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: simulateUserSettings.email as string,
-        password: simulateUserSettings.password as string,
+        email: simulateUserSettings.email,
+        password: simulateUserSettings.password,
       });
       if (error) throw error;
       return data;
@@ -107,7 +83,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
   const actions = useMemo(
     () => ({
       //Login
-      login: async (email: string, password: string) => {
+      login: async (email, password) => {
         try {
           const supabase = await createClient();
           const { error } = await supabase.auth.signInWithPassword({
@@ -139,7 +115,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
         }
       },
       //signUp
-      signup: async (email: string, password: string) => {
+      signup: async (email, password) => {
         try {
           const supabase = await createClient();
           const { error } = await supabase.auth.signUp({ 
@@ -157,7 +133,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
         }
       },
       //resetPassword
-      resetPasswordForEmail: async (email: string) => {
+      resetPasswordForEmail: async (email) => {
         try {
           const supabase = await createClient();
           const { error } = await supabase.auth.resetPasswordForEmail(
@@ -175,7 +151,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
         // Currently this can be used by any authenticated user to change their password without having to re-enter their exisiting password
         // There is likely a more robust way to perform this - 
         // i.e. requiring an expiring token to be passed in the /changepassword URL, validating the token against the supabase DB, only displaying the page if the toekn was valid, otherwise redirect
-      updateUserPassword: async (password: string) => {
+      updateUserPassword: async (password) => {
         try {
           const supabase = await createClient();
           const { error } = await supabase.auth.updateUser({
@@ -191,7 +167,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
   );
   
   //Setup the data that will be passed as global context to Plasmic studio
-  const dataProviderData: DataProviderData = {
+  const dataProviderData = {
     user: session,
     simulateUserSettings: {
       simulateLoggedInUser: simulateLoggedInUser,

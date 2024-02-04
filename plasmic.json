@@ -585,7 +585,7 @@
           "componentImportPath": "@plasmicapp/react-web/lib/data-sources"
         },
         {
-          "id": "WiE-mY-Be4JV",
+          "id": "3BbQTl6zTfBP",
           "name": "SupabaseUser",
           "displayName": "SupabaseUserGlobalContext",
           "componentImportPath": "./components/SupabaseUserProvider"

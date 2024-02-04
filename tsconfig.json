@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "utils/supabase/static-props.js", "utils/supabase/server-props.js", "utils/supabase/component.js", "utils/supabase/api.js"  ],
+, "utils/supabase/static-props.js", "utils/supabase/server-props.js", "utils/supabase/component.js", "utils/supabase/api.js", "components/SupabaseUserProvider.jsx"  ],
   "exclude": [
     "node_modules"
   ]
