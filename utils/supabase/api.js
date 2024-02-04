@@ -1,6 +1,6 @@
 import { createServerClient, serialize } from '@supabase/ssr'
 
-function createClient(req, res) {
+export function createClient(req, res) {
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -21,5 +21,3 @@ function createClient(req, res) {
 
   return supabase;
 }
-
-module.exports = createClient;
