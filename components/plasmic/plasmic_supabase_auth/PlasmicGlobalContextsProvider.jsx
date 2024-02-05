@@ -107,12 +107,12 @@ export default function GlobalContextsProvider(props) {
         email={
           supabaseUserProps && "email" in supabaseUserProps
             ? supabaseUserProps.email
-            : undefined
+            : "hello@hello.com"
         }
         password={
           supabaseUserProps && "password" in supabaseUserProps
             ? supabaseUserProps.password
-            : undefined
+            : "hellopassword"
         }
         protectedRoutes={
           supabaseUserProps && "protectedRoutes" in supabaseUserProps
@@ -127,7 +127,7 @@ export default function GlobalContextsProvider(props) {
         simulateLoggedInUser={
           supabaseUserProps && "simulateLoggedInUser" in supabaseUserProps
             ? supabaseUserProps.simulateLoggedInUser
-            : undefined
+            : true
         }
       >
         {children}

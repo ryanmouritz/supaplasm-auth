@@ -86,7 +86,21 @@ function PlasmicMiddlewareprotected__RenderFunc(props) {
               sty.h3
             )}
           >
-            {"Middleware protected"}
+            <React.Fragment>
+              {(() => {
+                try {
+                  return undefined;
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return "Middleware protected";
+                  }
+                  throw e;
+                }
+              })()}
+            </React.Fragment>
           </h3>
         </div>
       </div>

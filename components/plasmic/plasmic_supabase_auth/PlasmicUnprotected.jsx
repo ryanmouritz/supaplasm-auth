@@ -92,6 +92,9 @@ function PlasmicUnprotected__RenderFunc(props) {
               projectcss.__wab_text,
               sty.h3
             )}
+            onClick={async event => {
+              const $steps = {};
+            }}
           >
             {"This page is unprotected."}
           </h3>
