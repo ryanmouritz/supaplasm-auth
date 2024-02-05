@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server'
 import GlobalContextsProvider from './components/plasmic/plasmic_supabase_auth/PlasmicGlobalContextsProvider'
 import { Children } from 'react'
 
-// const protectedRoutes = ["/middlewareprotected"] // the list of protected routes. This could be adapated to take and array from the GlobalContextProvider
+const protectedRoutes = ["/middlewareprotected"] // the list of protected routes. This could be adapated to take and array from the GlobalContextProvider
 
-const defaultProviderProps = GlobalContextsProvider(Children, null, null)
-const protectedRoutes = defaultProviderProps.props.children.props.protectedRoutes
+// const defaultProviderProps = GlobalContextsProvider(Children, null, null)
+// const protectedRoutes = defaultProviderProps.props.children.props.protectedRoutes
 
 export async function middleware(request) {
 
@@ -67,7 +67,7 @@ export async function middleware(request) {
         const { data: { user } } = await supabase.auth.getUser()
         
         // check some auth condition and redirect if not met - for now this is just whether the page is in protected array and whether the user is logged in
-        if ( !user && protectedRoutes.some(path => request.nextUrl.pathname.startsWith(path))) {
+        if ( !user && protectedRoutes?.some(path => request.nextUrl.pathname.startsWith(path))) {
           const redirectUrl = new URL("/login", request.nextUrl.origin);
           return NextResponse.redirect(redirectUrl.toString());
         }

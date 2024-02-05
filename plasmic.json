@@ -580,6 +580,20 @@
           "scheme": "blackbox",
           "componentType": "page",
           "path": "/middlewareprotected"
+        },
+        {
+          "id": "4rCsV30C7D2Y",
+          "name": "TextInput",
+          "type": "managed",
+          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
+          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicTextInput.jsx",
+          "importSpec": {
+            "modulePath": "TextInput.jsx"
+          },
+          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicTextInput.module.css",
+          "scheme": "blackbox",
+          "componentType": "component",
+          "plumeType": "text-input"
         }
       ],
       "icons": [
@@ -592,6 +606,11 @@
           "id": "hkedgKdVrVI3",
           "name": "IconIcon",
           "moduleFilePath": "plasmic/plasmic_supabase_auth/icons/PlasmicIcon__Icon.jsx"
+        },
+        {
+          "id": "UvxZi1fKeou-",
+          "name": "SearchsvgIcon",
+          "moduleFilePath": "plasmic/plasmic_supabase_auth/icons/PlasmicIcon__Searchsvg.jsx"
         }
       ],
       "images": [],
@@ -612,10 +631,16 @@
           "componentImportPath": "@plasmicapp/react-web/lib/data-sources"
         },
         {
-          "id": "3BbQTl6zTfBP",
+          "id": "ad33TL8OGqaY",
+          "name": "SupabaseProvider",
+          "displayName": "SupabaseProvider",
+          "componentImportPath": "./components/SupabaseProvider"
+        },
+        {
+          "id": "8M0gVUgo00jB",
           "name": "SupabaseUser",
           "displayName": "SupabaseUserGlobalContext",
-          "componentImportPath": "./components/SupabaseUserProvider"
+          "componentImportPath": "./components/supabaseUserProvider"
         }
       ],
       "customFunctions": []

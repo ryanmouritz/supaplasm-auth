@@ -5,7 +5,7 @@
 // Plasmic Project: nT5KcU3zyMS2wxZ8Rc3Mjw
 import * as React from "react";
 import { AntdConfigProvider } from "@plasmicpkgs/antd5/skinny/registerConfigProvider";
-import { SupabaseUser } from "../../SupabaseUserProvider"; // plasmic-import: 3BbQTl6zTfBP/codeComponent
+import { SupabaseUser } from "../../supabaseUserProvider"; // plasmic-import: 8M0gVUgo00jB/codeComponent
 
 export default function GlobalContextsProvider(props) {
   const { children, antdConfigProviderProps, supabaseUserProps } = props;
@@ -107,17 +107,17 @@ export default function GlobalContextsProvider(props) {
         email={
           supabaseUserProps && "email" in supabaseUserProps
             ? supabaseUserProps.email
-            : "hello@hello.com"
+            : undefined
         }
         password={
           supabaseUserProps && "password" in supabaseUserProps
             ? supabaseUserProps.password
-            : "hellopassword"
+            : undefined
         }
         protectedRoutes={
           supabaseUserProps && "protectedRoutes" in supabaseUserProps
             ? supabaseUserProps.protectedRoutes
-            : ["/middlewareprotected", "/someother"]
+            : "/unprotected"
         }
         redirectOnLoginSuccess={
           supabaseUserProps && "redirectOnLoginSuccess" in supabaseUserProps
@@ -127,7 +127,7 @@ export default function GlobalContextsProvider(props) {
         simulateLoggedInUser={
           supabaseUserProps && "simulateLoggedInUser" in supabaseUserProps
             ? supabaseUserProps.simulateLoggedInUser
-            : true
+            : undefined
         }
       >
         {children}
