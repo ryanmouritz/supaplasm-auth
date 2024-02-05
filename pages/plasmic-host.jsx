@@ -9,6 +9,10 @@ registerGlobalContext(SupabaseUser, {
         simulateLoggedInUser: "boolean",
         email: "string",
         password: "string",
+        protectedRoutes: {
+          type: "array",
+          displayName: "Protected Routes"
+        }
     },
     providesData: true,
     globalActions: {

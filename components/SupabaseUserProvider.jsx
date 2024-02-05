@@ -7,7 +7,7 @@ import getErrMsg from "../utils/getErrMsg";
 import { create } from "domain";
 
 
-export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedInUser, email, password}) => {
+export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedInUser, email, password, protectedRoutes}) => {
 
   //Nextjs router
   const router = useRouter();

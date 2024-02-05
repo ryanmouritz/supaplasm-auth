@@ -1,9 +1,16 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
+import GlobalContextsProvider from './components/plasmic/plasmic_supabase_auth/PlasmicGlobalContextsProvider'
+import { Children } from 'react'
 
-const protectedRoutes = ["/middlewareprotected"] // the list of protected routes. This could be adapated to take and array from the GlobalContextProvider
+// const protectedRoutes = ["/middlewareprotected"] // the list of protected routes. This could be adapated to take and array from the GlobalContextProvider
+
+const defaultProviderProps = GlobalContextsProvider(Children, null, null)
+const protectedRoutes = defaultProviderProps.props.children.props.protectedRoutes
 
 export async function middleware(request) {
+
+
     // create a response that we can later modify the headers for
     let response = NextResponse.next({
         request: {
