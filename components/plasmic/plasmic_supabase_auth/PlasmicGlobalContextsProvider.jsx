@@ -117,7 +117,7 @@ export default function GlobalContextsProvider(props) {
         protectedRoutes={
           supabaseUserProps && "protectedRoutes" in supabaseUserProps
             ? supabaseUserProps.protectedRoutes
-            : ["/middlewareprotected", "/someother", "/unprotected"]
+            : ["/middlewareprotected", "/someother"]
         }
         redirectOnLoginSuccess={
           supabaseUserProps && "redirectOnLoginSuccess" in supabaseUserProps
