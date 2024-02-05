@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
 
 //custom components
-import { SupabaseUser } from '../components/supabaseUserProvider';
+import { SupabaseUser } from '../components/SupabaseUserProvider';
 import { SupabaseProvider } from '../components/SupabaseProvider';
 
 registerGlobalContext(SupabaseUser, {
