@@ -266,7 +266,7 @@ function PlasmicLogin__RenderFunc(props) {
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__dHSaT
+                        sty.formField__p5Ne4
                       )}
                       label={"Email"}
                       name={"email"}
@@ -278,7 +278,7 @@ function PlasmicLogin__RenderFunc(props) {
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__nxGdP
+                        sty.formField__xwtvu
                       )}
                       label={"Password"}
                       name={"password"}

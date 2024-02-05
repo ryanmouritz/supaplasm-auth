@@ -121,6 +121,7 @@
   max-width: 100%;
   object-fit: cover;
   width: auto;
+  background: #000000;
 }
 .text___4CVul {
   position: relative;
