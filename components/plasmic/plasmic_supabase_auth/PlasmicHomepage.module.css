@@ -27,6 +27,9 @@
 }
 .navigationBar:global(.__wab_instance) {
   position: relative;
+  width: 100%;
+  grid-column-start: 3 !important;
+  grid-column-end: -3 !important;
 }
 .section {
   display: grid;

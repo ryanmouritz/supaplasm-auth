@@ -25,6 +25,9 @@
 .navigationBar:global(.__wab_instance) {
   max-width: 100%;
   position: relative;
+  width: 100%;
+  grid-column-start: 3 !important;
+  grid-column-end: -3 !important;
 }
 .h3 {
   position: relative;

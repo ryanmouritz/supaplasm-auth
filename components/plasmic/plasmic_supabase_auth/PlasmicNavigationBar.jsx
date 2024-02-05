@@ -9,8 +9,11 @@
 // Plasmic Project: nT5KcU3zyMS2wxZ8Rc3Mjw
 // Component: 0W22cQAiPzr5
 import * as React from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+  PlasmicLink as PlasmicLink__,
+  Stack as Stack__,
   classNames,
   createPlasmicElementProxy,
   deriveRenderOpts,
@@ -94,6 +97,51 @@ function PlasmicNavigationBar__RenderFunc(props) {
             </span>
           </React.Fragment>
         </h3>
+        <Stack__
+          as={"div"}
+          hasGap={true}
+          className={classNames(projectcss.all, sty.freeBox__ft2Dg)}
+        >
+          <PlasmicLink__
+            className={classNames(
+              projectcss.all,
+              projectcss.a,
+              projectcss.__wab_text,
+              sty.link__iQHja
+            )}
+            component={Link}
+            href={`/unprotected`}
+            platform={"nextjs"}
+          >
+            {"Unprotected "}
+          </PlasmicLink__>
+          <PlasmicLink__
+            className={classNames(
+              projectcss.all,
+              projectcss.a,
+              projectcss.__wab_text,
+              sty.link__efFd0
+            )}
+            component={Link}
+            href={`/middlewareprotected`}
+            platform={"nextjs"}
+          >
+            {"Middleware Protected"}
+          </PlasmicLink__>
+          <PlasmicLink__
+            className={classNames(
+              projectcss.all,
+              projectcss.a,
+              projectcss.__wab_text,
+              sty.link__fEs7
+            )}
+            component={Link}
+            href={`/protected`}
+            platform={"nextjs"}
+          >
+            {"RouteProtected"}
+          </PlasmicLink__>
+        </Stack__>
         <div className={classNames(projectcss.all, sty.freeBox__fqds8)}>
           {(() => {
             try {
