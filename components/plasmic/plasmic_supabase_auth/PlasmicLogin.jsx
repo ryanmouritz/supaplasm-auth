@@ -210,7 +210,8 @@ function PlasmicLogin__RenderFunc(props) {
                                   }
                                   throw e;
                                 }
-                              })()
+                              })(),
+                              "/protected"
                             ]
                           };
                           return $globalActions[
@@ -266,7 +267,7 @@ function PlasmicLogin__RenderFunc(props) {
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__xgNeh
+                        sty.formField__dffzu
                       )}
                       label={"Email"}
                       name={"email"}
@@ -278,7 +279,7 @@ function PlasmicLogin__RenderFunc(props) {
                     <FormItemWrapper
                       className={classNames(
                         "__wab_instance",
-                        sty.formField__yjsOb
+                        sty.formField__mzyJj
                       )}
                       label={"Password"}
                       name={"password"}

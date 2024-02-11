@@ -1,21 +1,15 @@
 import * as React from 'react';
-import { PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
+import { PlasmicCanvasContext, PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
 
 //custom components
 import { SupabaseUser } from '../components/SupabaseUserProvider';
 import { SupabaseProvider } from '../components/SupabaseProvider';
 
+
 registerGlobalContext(SupabaseUser, {
     name: "SupabaseUserGlobalContext",
     props: {
-        redirectOnLoginSuccess: "string",
-        simulateLoggedInUser: "boolean",
-        email: "string",
-        password: "string",
-        protectedRoutes: {
-          type: "array",
-          displayName: "Protected Routes"
-        }
+        defaultRedirectOnLoginSuccess: "string",
     },
     providesData: true,
     globalActions: {
@@ -29,6 +23,10 @@ registerGlobalContext(SupabaseUser, {
               name: "password",
               type: "string",
           },
+          {
+              name:"successRedirect",
+              type: "string"
+          }
           ],
       },
       signup: {
@@ -41,10 +39,19 @@ registerGlobalContext(SupabaseUser, {
             name: "password",
             type: "string",
         },
+        {
+            name:"successRedirect",
+            type: "string"
+        }
         ],
       },
       logout: {
-          parameters: []
+        parameters: [
+        {
+            name:"successRedirect",
+            type: "string"
+        }
+        ]
       },
       resetPasswordForEmail: {
         parameters: [
@@ -63,7 +70,7 @@ registerGlobalContext(SupabaseUser, {
         ],
       },
     },
-    importPath: "./components/supabaseUserProvider",
+    importPath: "./components/SupabaseUserProvider",
     isDefaultExport: false,
     importName: "SupabaseUser",
 });
@@ -124,7 +131,63 @@ registerComponent(SupabaseProvider, {
               {
                 value: "ilike",
                 label: "matches a case-insensitive pattern (ilike)"
-              }
+              },
+              {
+                value: "is",
+                label: "is (is)"
+              },
+              {
+                value: "in",
+                label: "is in an array (in)"
+              },
+              {
+                value: "contains",
+                label: "contains every element in (contains)"
+              },
+              {
+                value: "containedby",
+                label: "contained by (containedby)"
+              },
+              {
+                value: "rangeGt",
+                label: "greater than range (rangeGt)"
+              },
+              {
+                value: "rangeGte",
+                label: "greater than or equal to range (rangeGte)"
+              },
+              {
+                value: "rangeLt",
+                label: "less than range (rangeLt)"
+              },
+              {
+                value: "rangeLte",
+                label: "less than or equal to range (rangeLte)"
+              },
+              {
+                value: "rangeAdjacent",
+                label: "is mutually exclusive to range (rangeAdjacent)"
+              },
+              {
+                value: "overlaps",
+                label: "has an element in common with (overlaps)"
+              },
+              {
+                value: "match",
+                label: "where each { column:value, ... } matches (match)"
+              },
+              {
+                value: "or",
+                label: "that matches at least one PostgREST filter (or)"
+              },
+              {
+                value: "textSearch",
+                label: "matches the query string (textSearch)"
+              },
+              {
+                value: "not",
+                label: "that doesn't match the PostgREST filter (not)"
+              },
             ]
           },
           value: "string",

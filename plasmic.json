@@ -640,7 +640,7 @@
           "id": "8M0gVUgo00jB",
           "name": "SupabaseUser",
           "displayName": "SupabaseUserGlobalContext",
-          "componentImportPath": "./components/supabaseUserProvider"
+          "componentImportPath": "./components/SupabaseUserProvider"
         }
       ],
       "customFunctions": []

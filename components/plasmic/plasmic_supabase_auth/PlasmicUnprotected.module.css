@@ -52,6 +52,8 @@
   max-width: 100%;
   object-fit: cover;
   position: relative;
+  width: 100%;
+  min-width: 0;
 }
 .text___0CQmX {
   position: relative;

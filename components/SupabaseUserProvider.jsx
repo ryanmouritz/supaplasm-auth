@@ -1,113 +1,101 @@
 import { useRouter } from "next/router";
 import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
-import { useState, useEffect, useCallback, useMemo, Component } from "react";
-// import supabaseBrowserClient from "@/utils/supabaseBrowserClient"; // legacy import that adapted the supabaseBrowserClient to accept a "Simulated User" from the Plasmic Studio
-import { createClient } from '../utils/supabase/component'
+import { useState, useEffect, useMemo, Component } from "react";
+import createClient from '../utils/supabase/component'
 import getErrMsg from "../utils/getErrMsg";
 import { create } from "domain";
 
 
-export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedInUser, email, password, protectedRoutes}) => {
+export const SupabaseUser = ({children, defaultRedirectOnLoginSuccess}) => {
 
   //Nextjs router
   const router = useRouter();
   
   //Setup state
-  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
-  const [simulateUserSettings, setSimulateUserSettings] = useState({
-    simulateLoggedInUser: simulateLoggedInUser,
-    email: email,
-    password: password,
-  });
+  //Helper function to get the user and save to state
+  async function getUserAndSaveToState() {
 
-  //Update simulateUserSettings when props change
-  useEffect(() => {
-    setSimulateUserSettings({
-      simulateLoggedInUser: simulateLoggedInUser,
-      email: email,
-      password: password,
-    });
-  }, [simulateLoggedInUser, email, password]);
+    const supabase = createClient();
 
-  //Callback to get the logged in user's session
-  const getSession = useCallback(async () => {
-    const supabase = await createClient(simulateUserSettings);
-
-    if (!simulateUserSettings.simulateLoggedInUser) {
-      //If we are NOT simulating logged in user, get session from localStorage / cookies
-      const { data, error } = await supabase.auth.getSession();
-      if (error) throw error;
-      return data;
-    } else {
-      //If we are simulating logged in user, sign in with email and password to get session instead
-      //Reason: getSession() won't work because the Plasmic studio renders the app in an iframe
-      const validFields =
-        simulateUserSettings.email && simulateUserSettings.password;
-      if (!validFields)
-        throw new Error(
-          "You must provide an email and password to simulate a logged in user (Project settings -> SupabaseUser)"
-        );
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: simulateUserSettings.email,
-        password: simulateUserSettings.password,
-      });
-      if (error) throw error;
-      return data;
+    //Get the session from stored credentials (not from the server)
+    let { data: getSessionData, error: getSessionError } = await supabase.auth.getSession();
+    if (getSessionError) {
+      throw getSessionError;
     }
-  }, [simulateUserSettings]);
 
-  //Callback to get the session and set state variable session to the result
-  const getSessionAndSaveToState = useCallback(async () => {
-    try {
-      const data = await getSession();
-      setSession({
-        email: data.session?.user.email || null,
-        role: data.session?.user.role || null,
-        user_metadata: data.session?.user.user_metadata || null,
-      });
-      setError(null);
-    } catch (e) {
-      setError(getErrMsg(e))
+    //If no session, set user to null
+    if(!getSessionData.session) {
+      setUser(null);
+      setError(null)
       return;
     }
-  }, [getSession]);
 
-  //Initially fetch the session and save as state
+    //If there is a session, save the user to state
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    setUser(data?.user);
+
+  }
+
+  //On initial load, set the session to state
   useEffect(() => {
-    getSessionAndSaveToState();
-  }, [getSessionAndSaveToState]);
+    getUserAndSaveToState();
+  }, [])
 
   //Global actions that can be called from plasmic studio
   const actions = useMemo(
     () => ({
       //Login
-      login: async (email, password) => {
+      login: async (email, password, successRedirect) => {
         try {
-          const supabase = await createClient();
-          const { error } = await supabase.auth.signInWithPassword({
+          const supabase = createClient();
+          const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
-          if (error) throw error;
-          await getSessionAndSaveToState();
+          if (error) {
+            throw error;
+          }
+          
+          //Save the session to state
+          setUser(data?.session?.user);
+          
+          //Reset errors if present
           setError(null);
-          if(redirectOnLoginSuccess && router) router.push(redirectOnLoginSuccess);
+
+          //Redirect if needed
+          if((successRedirect ?? defaultRedirectOnLoginSuccess) && router) router.push(successRedirect ?? defaultRedirectOnLoginSuccess);
+          
           return;
+
         } catch (e) {
           setError(getErrMsg(e))
           return;
         }
       },
       //Logout
-      logout: async () => {
+      logout: async (successRedirect) => {
         try {
-          const supabase = await createClient();
+          const supabase = createClient();
           const { error } = await supabase.auth.signOut();
-          if (error) throw error;
-          await getSessionAndSaveToState();
+          if (error) {
+            throw error;
+          }
+          //Reset the session in state
+          setUser(null);
+
+          //Reset errors if present
           setError(null);
+
+          //Redirect if needed
+          if((successRedirect) && router) router.push(successRedirect);
+
           return;
         } catch (e) {
           setError(getErrMsg(e))
@@ -115,7 +103,7 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
         }
       },
       //signUp
-      signup: async (email, password) => {
+      signup: async (email, password, successRedirect) => {
         try {
           const supabase = await createClient();
           const { error } = await supabase.auth.signUp({ 
@@ -123,8 +111,13 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
             password 
           });
           if (error) throw error;
-          await getSessionAndSaveToState();
+          await getUserAndSaveToState();
+
           setError(null);
+
+          //Redirect if needed
+          if((successRedirect) && router) router.push(successRedirect);
+          
           // There is potential to include a signup redirect here that would redirect to a page provided in an action parameter
           return;
         } catch (e) {
@@ -163,17 +156,12 @@ export const SupabaseUser = ({children, redirectOnLoginSuccess, simulateLoggedIn
         }
       },
     }),
-    [getSessionAndSaveToState, simulateUserSettings, redirectOnLoginSuccess, router]
+    [defaultRedirectOnLoginSuccess, router]
   );
   
   //Setup the data that will be passed as global context to Plasmic studio
   const dataProviderData = {
-    user: session,
-    simulateUserSettings: {
-      simulateLoggedInUser: simulateLoggedInUser,
-      email: email,
-      password: password,
-    },
+    user,
     error,
   };
 
