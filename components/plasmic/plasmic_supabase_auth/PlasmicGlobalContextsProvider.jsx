@@ -5,7 +5,7 @@
 // Plasmic Project: nT5KcU3zyMS2wxZ8Rc3Mjw
 import * as React from "react";
 import { AntdConfigProvider } from "@plasmicpkgs/antd5/skinny/registerConfigProvider";
-import { SupabaseUser } from "../../SupabaseUserProvider"; // plasmic-import: 8M0gVUgo00jB/codeComponent
+import { SupabaseUser } from "../../supabaseUserProvider"; // plasmic-import: 8M0gVUgo00jB/codeComponent
 
 export default function GlobalContextsProvider(props) {
   const { children, antdConfigProviderProps, supabaseUserProps } = props;

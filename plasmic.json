@@ -538,7 +538,7 @@
           "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicResetPassword.module.css",
           "scheme": "blackbox",
           "componentType": "page",
-          "path": "/change-password"
+          "path": "/resetpassword"
         },
         {
           "id": "hImsFKgCrESY",
@@ -552,7 +552,7 @@
           "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicChangePassword.module.css",
           "scheme": "blackbox",
           "componentType": "page",
-          "path": "/change-password"
+          "path": "/changepassword"
         },
         {
           "id": "0W22cQAiPzr5",
