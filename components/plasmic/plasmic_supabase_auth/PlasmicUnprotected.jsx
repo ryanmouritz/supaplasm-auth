@@ -794,6 +794,40 @@ function PlasmicUnprotected__RenderFunc(props) {
                                     sty.button__uLz
                                   )}
                                   color={"softGreen"}
+                                  onClick={async event => {
+                                    const $steps = {};
+                                    $steps["runActionOnSuparecordsall"] = true
+                                      ? (() => {
+                                          const actionArgs = {
+                                            tplRef: "suparecordsall",
+                                            action: "runRpc"
+                                          };
+                                          return (({
+                                            tplRef,
+                                            action,
+                                            args
+                                          }) => {
+                                            return $refs?.[tplRef]?.[action]?.(
+                                              ...(args ?? [])
+                                            );
+                                          })?.apply(null, [actionArgs]);
+                                        })()
+                                      : undefined;
+                                    if (
+                                      $steps["runActionOnSuparecordsall"] !=
+                                        null &&
+                                      typeof $steps[
+                                        "runActionOnSuparecordsall"
+                                      ] === "object" &&
+                                      typeof $steps["runActionOnSuparecordsall"]
+                                        .then === "function"
+                                    ) {
+                                      $steps["runActionOnSuparecordsall"] =
+                                        await $steps[
+                                          "runActionOnSuparecordsall"
+                                        ];
+                                    }
+                                  }}
                                   size={"compact"}
                                   submitsForm={true}
                                 >

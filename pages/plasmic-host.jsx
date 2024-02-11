@@ -14,20 +14,20 @@ registerGlobalContext(SupabaseUser, {
     providesData: true,
     globalActions: {
       login: {
-          parameters: [
-          {
-              name: "email",
-              type: "string",
-          },
-          {
-              name: "password",
-              type: "string",
-          },
-          {
-              name:"successRedirect",
-              type: "string"
-          }
-          ],
+        parameters: [
+        {
+            name: "email",
+            type: "string",
+        },
+        {
+            name: "password",
+            type: "string",
+        },
+        {
+            name:"successRedirect",
+            type: "string"
+        }
+        ],
       },
       signup: {
         parameters: [
@@ -285,30 +285,38 @@ registerComponent(SupabaseProvider, {
       description: "refetch rows from the database",
       argTypes: [],
     },
+
     deleteRow: {
       description: "delete a row by ID",
-      argTypes: [{ name: "ID", type: "string" }],
+      argTypes: [{ name: "ID", type: "string", displayName: "Id / unique identifier of the row to delete" }],
     },
     addRow: {
       description: "add a row",
       argTypes: [
-        { name: "fullRow", type: "object" },
-        { name: "rowForSupabase", type: "object" }
+        { name: "rowForSupabase", type: "object", displayName: "Row object to send to Supabase" },
+        { name: "optimisticRow", type: "object", displayName: "Optimistic new row object (optional)"},
       ],
     },
     editRow: {
       description: "edit row",
       argTypes: [
-        { name: "fullRow", type: "object" },
-        { name: "rowForSupabase", type: "object"}
+        { name: "rowForSupabase", type: "object", displayName: "Row object to send to Supabase"},
+        { name: "optimisticRow", type: "object", displayName: "Optimistic edited row object (optional)"},
       ],
     },
-    rpcForAddRow: {
+    runRpc: {
       description: 'RPC for add row',
       argTypes: [
-        { name: "rpcName", type: "string" },
-        { name: "fullRow", type: "object" },
-        { name: "rowForSupabase", type: "object"}
+        { name: "rpcName", displayName: 'Name of the RPC', type: "string" },
+        { name: "dataForSupabase", displayName: 'Data for Supabase API call', type: "object"},
+        { name: "optimisticData", displayName: 'Data for optimistic operation (optional)', type: 'object'},
+        { 
+          //Choose the optimistic operation to perform
+          //Done in plain text since "choice" type doesn't work in refActions
+          name: "optimisticOperation", 
+          displayName: 'Optimistic operation (addRow / editRow / deleteRow / replaceData) (optional)', 
+          type: "string" 
+        },
       ]
     },
     clearError: {

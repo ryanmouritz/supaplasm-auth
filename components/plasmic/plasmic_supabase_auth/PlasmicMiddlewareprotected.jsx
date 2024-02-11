@@ -17,8 +17,13 @@ import {
   deriveRenderOpts,
   useCurrentUser
 } from "@plasmicapp/react-web";
-import { useDataEnv } from "@plasmicapp/react-web/lib/host";
+import {
+  DataCtxReader as DataCtxReader__,
+  useDataEnv
+} from "@plasmicapp/react-web/lib/host";
 import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
+import { SupabaseProvider } from "../../SupabaseProvider"; // plasmic-import: ad33TL8OGqaY/codeComponent
+import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -83,18 +88,202 @@ function PlasmicMiddlewareprotected__RenderFunc(props) {
             className={classNames("__wab_instance", sty.navigationBar)}
           />
 
-          <h3
-            data-plasmic-name={"h3"}
-            data-plasmic-override={overrides.h3}
-            className={classNames(
-              projectcss.all,
-              projectcss.h3,
-              projectcss.__wab_text,
-              sty.h3
-            )}
+          <section
+            data-plasmic-name={"section"}
+            data-plasmic-override={overrides.section}
+            className={classNames(projectcss.all, sty.section)}
           >
-            {"Middleware protected"}
-          </h3>
+            <h3
+              data-plasmic-name={"h3"}
+              data-plasmic-override={overrides.h3}
+              className={classNames(
+                projectcss.all,
+                projectcss.h3,
+                projectcss.__wab_text,
+                sty.h3
+              )}
+            >
+              {"Middleware protected"}
+            </h3>
+            <SupabaseProvider
+              data-plasmic-name={"popularlikes"}
+              data-plasmic-override={overrides.popularlikes}
+              className={classNames("__wab_instance", sty.popularlikes)}
+              columns={"*"}
+              loading={
+                <DataCtxReader__>
+                  {$ctx => (
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text___0L1Cc
+                      )}
+                    >
+                      {"Loading..."}
+                    </div>
+                  )}
+                </DataCtxReader__>
+              }
+              noData={
+                <DataCtxReader__>
+                  {$ctx => (
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text__v2VS0
+                      )}
+                    >
+                      {"No data"}
+                    </div>
+                  )}
+                </DataCtxReader__>
+              }
+              queryName={"popularlikes"}
+              ref={ref => {
+                $refs["popularlikes"] = ref;
+              }}
+              tableName={"popular"}
+              uniqueIdentifierField={"id"}
+              validating={
+                <DataCtxReader__>
+                  {$ctx => (
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text__xt6Gu
+                      )}
+                    >
+                      {"Validating..."}
+                    </div>
+                  )}
+                </DataCtxReader__>
+              }
+            >
+              <DataCtxReader__>
+                {$ctx => (
+                  <div
+                    data-plasmic-name={"freeBox"}
+                    data-plasmic-override={overrides.freeBox}
+                    className={classNames(projectcss.all, sty.freeBox)}
+                  >
+                    <h5
+                      data-plasmic-name={"h5"}
+                      data-plasmic-override={overrides.h5}
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.h5,
+                        projectcss.__wab_text,
+                        sty.h5
+                      )}
+                    >
+                      <React.Fragment>
+                        {(() => {
+                          try {
+                            return $ctx.popularlikes.data[0].name;
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return "";
+                            }
+                            throw e;
+                          }
+                        })()}
+                      </React.Fragment>
+                    </h5>
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text__xo13F
+                      )}
+                    >
+                      <React.Fragment>
+                        {(() => {
+                          try {
+                            return $ctx.popularlikes.data[0].likes;
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return "";
+                            }
+                            throw e;
+                          }
+                        })()}
+                      </React.Fragment>
+                    </div>
+                    <Button
+                      data-plasmic-name={"button"}
+                      data-plasmic-override={overrides.button}
+                      className={classNames("__wab_instance", sty.button)}
+                      onClick={async event => {
+                        const $steps = {};
+                        $steps["runActionOnPopularlikes"] = true
+                          ? (() => {
+                              const actionArgs = {
+                                tplRef: "popularlikes",
+                                action: "runRpc",
+                                args: [
+                                  "increment_like_counter",
+                                  (() => {
+                                    try {
+                                      return {
+                                        _id: $ctx.popularlikes.data[0].id
+                                      };
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return undefined;
+                                      }
+                                      throw e;
+                                    }
+                                  })()
+                                ]
+                              };
+                              return (({ tplRef, action, args }) => {
+                                return $refs?.[tplRef]?.[action]?.(
+                                  ...(args ?? [])
+                                );
+                              })?.apply(null, [actionArgs]);
+                            })()
+                          : undefined;
+                        if (
+                          $steps["runActionOnPopularlikes"] != null &&
+                          typeof $steps["runActionOnPopularlikes"] ===
+                            "object" &&
+                          typeof $steps["runActionOnPopularlikes"].then ===
+                            "function"
+                        ) {
+                          $steps["runActionOnPopularlikes"] = await $steps[
+                            "runActionOnPopularlikes"
+                          ];
+                        }
+                      }}
+                    >
+                      <div
+                        className={classNames(
+                          projectcss.all,
+                          projectcss.__wab_text,
+                          sty.text__eL6PF
+                        )}
+                      >
+                        {"+"}
+                      </div>
+                    </Button>
+                  </div>
+                )}
+              </DataCtxReader__>
+            </SupabaseProvider>
+          </section>
         </div>
       </div>
     </React.Fragment>
@@ -102,9 +291,24 @@ function PlasmicMiddlewareprotected__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "navigationBar", "h3"],
+  root: [
+    "root",
+    "navigationBar",
+    "section",
+    "h3",
+    "popularlikes",
+    "freeBox",
+    "h5",
+    "button"
+  ],
+
   navigationBar: ["navigationBar"],
-  h3: ["h3"]
+  section: ["section", "h3", "popularlikes", "freeBox", "h5", "button"],
+  h3: ["h3"],
+  popularlikes: ["popularlikes", "freeBox", "h5", "button"],
+  freeBox: ["freeBox", "h5", "button"],
+  h5: ["h5"],
+  button: ["button"]
 };
 
 function makeNodeComponent(nodeName) {
@@ -140,7 +344,12 @@ export const PlasmicMiddlewareprotected = Object.assign(
   {
     // Helper components rendering sub-elements
     navigationBar: makeNodeComponent("navigationBar"),
+    section: makeNodeComponent("section"),
     h3: makeNodeComponent("h3"),
+    popularlikes: makeNodeComponent("popularlikes"),
+    freeBox: makeNodeComponent("freeBox"),
+    h5: makeNodeComponent("h5"),
+    button: makeNodeComponent("button"),
     // Metadata about props expected for PlasmicMiddlewareprotected
     internalVariantProps: PlasmicMiddlewareprotected__VariantProps,
     internalArgProps: PlasmicMiddlewareprotected__ArgProps,
