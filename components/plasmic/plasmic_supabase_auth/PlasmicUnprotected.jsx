@@ -800,7 +800,7 @@ function PlasmicUnprotected__RenderFunc(props) {
                                       ? (() => {
                                           const actionArgs = {
                                             tplRef: "suparecordsall",
-                                            action: "runRpc"
+                                            action: "addRow"
                                           };
                                           return (({
                                             tplRef,

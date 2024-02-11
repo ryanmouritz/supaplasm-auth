@@ -361,18 +361,20 @@ export const SupabaseProvider = forwardRef(
 
       //Element action to sort rows
       sortRows: async (sortField, sortDirection) => {
+        setMutationError(null)
         setSortField(sortField);
         setSortDirection(sortDirection);
       },
 
       //Element action to refetch data from supabase
       refetchRows: async () => {
+        setMutationError(null)
         mutate().catch((err) => setMutationError(getErrMsg(err)));
       },
 
       //Element action to delete a row with optional optimistic update & auto-refetch when done
       deleteRow: async (uniqueIdentifierVal) => {
-
+        setMutationError(null)
         mutate(deleteRow(uniqueIdentifierVal), {
           populateCache: true,
           optimisticData: deleteRowOptimistically(data, uniqueIdentifierVal),
@@ -381,7 +383,7 @@ export const SupabaseProvider = forwardRef(
 
       //Element action to add a row with optional optimistic update & auto-refetch when done
       addRow: async (rowForSupabase, optimisticRow) => {
-        
+        setMutationError(null)
         //Choose the optimistic function based on whether the user has specified optimisticRow
         //No optimisticRow means the returnUnchangedData func will be used, disabling optimistic update
         let optimisticOperation = optimisticRow ? "addRow" : null;
@@ -399,7 +401,7 @@ export const SupabaseProvider = forwardRef(
 
       //Element action to edit a row with optional optimistic update & auto-refetch when done
       editRow: async (rowForSupabase, optimisticRow) => {
-
+        setMutationError(null)
         //Choose the optimistic function based on whether the user has specified optimisticRow
         //No optimisticRow means the returnUnchangedData func will be used, disabling optimistic update
         let optimisticOperation = optimisticRow ? "editRow" : null;
@@ -423,6 +425,7 @@ export const SupabaseProvider = forwardRef(
         optimisticData,
         optimisticOperation
       ) => {
+        setMutationError(null)
 
         //Choose the correct optimistic function based on user's settings in the element action in studio
         const optimisticFunc = chooseOptimisticFunc(
