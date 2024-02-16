@@ -329,7 +329,24 @@ registerComponent(SupabaseProvider, {
   importName: "SupabaseProvider"
 });
 
-
+/*registerComponent(SupabaseStorageProvider, {
+  name: "SupabaseStorageProvider",
+  providesData: true,
+  props: {
+    instanceName: {
+      type: "string",
+      required: true,
+    }
+  },
+  refActions {
+    uploadFile: {
+      description: "Upload a file",
+      argTypes: [
+        { name: "fileToUpload"}
+      ]
+    }
+  }
+})*/
 
 export default function PlasmicHost() {
   return <PlasmicCanvasHost />;

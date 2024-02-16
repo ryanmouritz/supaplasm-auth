@@ -12,6 +12,8 @@ function cookiesAvailable() {
 
   if(testCookieRefetched) {
     //Cookie setting works. We're not in plasmic studio
+    //Delete the unused cookie
+    document.cookie = "testCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     return true;
   } else {
     //Cookie setting doesn't work. We're in plasmic studio

@@ -3,7 +3,6 @@ import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
 import { useState, useEffect, useMemo, Component } from "react";
 import createClient from '../utils/supabase/component'
 import getErrMsg from "../utils/getErrMsg";
-import { create } from "domain";
 
 
 export const SupabaseUser = ({children, defaultRedirectOnLoginSuccess}) => {
