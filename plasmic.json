@@ -594,6 +594,20 @@
           "scheme": "blackbox",
           "componentType": "component",
           "plumeType": "text-input"
+        },
+        {
+          "id": "WI_OIixjGUBY",
+          "name": "StorageSandpit",
+          "type": "managed",
+          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
+          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicStorageSandpit.jsx",
+          "importSpec": {
+            "modulePath": "../pages/storage-sandpit.jsx"
+          },
+          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicStorageSandpit.module.css",
+          "scheme": "blackbox",
+          "componentType": "page",
+          "path": "/storage-sandpit"
         }
       ],
       "icons": [
@@ -641,6 +655,12 @@
           "name": "SupabaseUser",
           "displayName": "SupabaseUserGlobalContext",
           "componentImportPath": "./components/SupabaseUserProvider"
+        },
+        {
+          "id": "Dd7FsMHlZFLF",
+          "name": "SupabaseStorageProvider",
+          "displayName": "SupabaseStorageProvider",
+          "componentImportPath": "./components/SupabaseStorageProvider"
         }
       ],
       "customFunctions": []

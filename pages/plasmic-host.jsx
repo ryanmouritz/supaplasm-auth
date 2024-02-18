@@ -4,6 +4,7 @@ import { PlasmicCanvasContext, PlasmicCanvasHost, registerComponent, registerGlo
 //custom components
 import { SupabaseUser } from '../components/SupabaseUserProvider';
 import { SupabaseProvider } from '../components/SupabaseProvider';
+import { SupabaseStorageProvider } from '../components/SupabaseStorageProvider';
 
 
 registerGlobalContext(SupabaseUser, {
@@ -329,24 +330,43 @@ registerComponent(SupabaseProvider, {
   importName: "SupabaseProvider"
 });
 
-/*registerComponent(SupabaseStorageProvider, {
+registerComponent(SupabaseStorageProvider, {
   name: "SupabaseStorageProvider",
   providesData: true,
   props: {
     instanceName: {
       type: "string",
       required: true,
+    },
+    bucketName: {
+      type: "string",
+      required: true,
+    },
+    children: {
+      type: "slot",
+      defaultValue: [
+        {
+          type: "text",
+          value: "Supabase Storage Provider"
+        }
+      ]
     }
   },
-  refActions {
+  refActions: {
     uploadFile: {
       description: "Upload a file",
       argTypes: [
-        { name: "fileToUpload"}
+        { name: "path", displayName: "Upload path", type: "string", description: "The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload." },
+        { name: "base64FileData", displayName: "File data (base64)", type: "string", description: "The body of the file to be stored in the bucket, encoded as base64." }, // The Supabase JS library does allow upload of a non-base64 fileBody, however unclear if possible to define the datatype in Plasmic component registration
+        //{ name: "cacheControl", displayName: "Cache duration in seconds (default: 3600)", type: "string", description: "The number of seconds the asset is cached in the browser and in the Supabase CDN. Defaults to 3600 seconds." },
+        { name: "upsert", displayName: "Allow overwrite", type: "boolean" }
       ]
     }
-  }
-})*/
+  },
+  importPath: "./components/SupabaseStorageProvider",
+  isDefaultExport: false,
+  importName: "SupabaseStorageProvider"
+});
 
 export default function PlasmicHost() {
   return <PlasmicCanvasHost />;

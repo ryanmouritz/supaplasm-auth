@@ -216,8 +216,10 @@ function PlasmicUnprotected__RenderFunc(props) {
             filters={[]}
             forceLoading={false}
             forceMutationError={false}
+            forceQueryError={false}
             forceValidating={false}
             generateRandomErrors={false}
+            hideDefaultErrors={false}
             initialSortDirection={"asc"}
             initialSortField={"name"}
             loading={
