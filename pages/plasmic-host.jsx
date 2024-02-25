@@ -5,6 +5,7 @@ import { PlasmicCanvasContext, PlasmicCanvasHost, registerComponent, registerGlo
 import { SupabaseUser } from '../components/SupabaseUserProvider';
 import { SupabaseProvider } from '../components/SupabaseProvider';
 import { SupabaseStorageProvider } from '../components/SupabaseStorageProvider';
+import { TestDataProvider } from '../components/TestDataProvider';
 
 
 registerGlobalContext(SupabaseUser, {
@@ -367,6 +368,19 @@ registerComponent(SupabaseStorageProvider, {
   isDefaultExport: false,
   importName: "SupabaseStorageProvider"
 });
+
+registerComponent(TestDataProvider, {
+  name: "Test Data Provider",
+  providesData: true,
+  props: {
+    children: {
+      type: "slot"
+    }
+  },
+  importPath: "./components/TestDataProvider",
+  isDefaultExport: false,
+  importName: "TestDataProvider"
+})
 
 export default function PlasmicHost() {
   return <PlasmicCanvasHost />;

@@ -26,7 +26,7 @@
   max-width: 100%;
   position: relative;
 }
-.supabaseStorage:global(.__wab_instance) {
+.testDataProvider:global(.__wab_instance) {
   max-width: 100%;
   object-fit: cover;
   position: relative;
@@ -37,20 +37,4 @@
   height: auto;
   max-width: 100%;
   min-width: 0;
-}
-.button:global(.__wab_instance) {
-  max-width: 100%;
-  position: relative;
-}
-.svg__yO7Qv {
-  position: relative;
-  object-fit: cover;
-  width: auto;
-  height: 1em;
-}
-.svg__wp9IO {
-  position: relative;
-  object-fit: cover;
-  width: auto;
-  height: 1em;
 }
