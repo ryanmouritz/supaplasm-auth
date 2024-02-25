@@ -2,12 +2,13 @@ import {
     forwardRef, 
     useImperativeHandle,
     useCallback,
-    useState
+    useState,
+    useEffect
 } from 'react';
-import createClient from '../utils/supabase/component';
+import createClient from '@/utils/supabase/component';
 import { DataProvider } from '@plasmicapp/react-web/lib/host';
 import { decode } from "base64-arraybuffer"
-import getErrMsg from '../utils/getErrMsg';
+import getErrMsg from '@/utils/getErrMsg';
 
 // Define the SupabaseStorageProvider component
 export const SupabaseStorageProvider = forwardRef(
@@ -23,8 +24,14 @@ export const SupabaseStorageProvider = forwardRef(
         const [data, setData] = useState(null);
         const [error, setError] = useState(null);
 
-        /* FUNCTIONS TO HANDLE SUPABASE STORAGE API CALLS */
+        // When data changes. set data
+        useEffect(() => {
+            if (data) {
+                setData(data)
+            }
+        }, [data])
 
+        /* FUNCTIONS TO HANDLE SUPABASE STORAGE API CALLS */
         // Function to upload a file to Supabase storage
         const uploadFile = useCallback(
             async (
@@ -41,17 +48,19 @@ export const SupabaseStorageProvider = forwardRef(
                 .upload(path, decode(base64FileData), {
                     upsert: upsert
                 })
-                if (error) setError(getErrMsg(error));
-                setData(data)
+                if (error) throw error;
                 console.log(data)
-                return data;
+                return { data };
             }, [bucketName]
         )
 
         /* ELEMENT ACTIONS WHICH CAN BE CALLED FROM PLASMIC STUDIO COMPONENT REGISTRATION */
         useImperativeHandle(ref, () => ({
             uploadFile: async ( path, base64FileData, upsert) => {
+                setError(null)
                 uploadFile(path, base64FileData, upsert)
+                .catch((err) => setError(getErrMsg(err)))
+            return data;
             },
         }));
 
@@ -62,6 +71,7 @@ export const SupabaseStorageProvider = forwardRef(
                     name = { instanceName || "SupabaseStorageProvider" }
                     data = {{
                         data: data,
+                        error: error,
                         isLoading: (!data && !error)
                     }}
                 >

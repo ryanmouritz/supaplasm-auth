@@ -26,19 +26,12 @@
   max-width: 100%;
   position: relative;
 }
-.supastorage:global(.__wab_instance) {
+.supabaseStorage:global(.__wab_instance) {
   max-width: 100%;
   object-fit: cover;
   position: relative;
 }
-.text__pyWao {
-  position: relative;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  min-width: 0;
-}
-.text__yW5Ro {
+.text {
   position: relative;
   width: 100%;
   height: auto;
@@ -49,13 +42,13 @@
   max-width: 100%;
   position: relative;
 }
-.svg__xAqPh {
+.svg__yO7Qv {
   position: relative;
   object-fit: cover;
   width: auto;
   height: 1em;
 }
-.svg___5PcYu {
+.svg__wp9IO {
   position: relative;
   object-fit: cover;
   width: auto;
