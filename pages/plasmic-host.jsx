@@ -375,6 +375,22 @@ registerComponent(TestDataProvider, {
   props: {
     children: {
       type: "slot"
+    },
+    instanceName: {
+      type: "string"
+    },
+    bucketName: {
+      type: "string"
+    }
+  },
+  refActions: {
+    increment: {
+      description: "Add one to the counter",
+      argTypes: []
+    },
+    uploadFile : {
+      description: "Uploads a file to Supabase Storage",
+      argTypes: []
     }
   },
   importPath: "./components/TestDataProvider",

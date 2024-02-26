@@ -22,6 +22,7 @@ import {
   useDataEnv
 } from "@plasmicapp/react-web/lib/host";
 import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
+import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
 import { TestDataProvider } from "../../TestDataProvider"; // plasmic-import: Dtk_LXGErFfR/codeComponent
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
@@ -87,10 +88,71 @@ function PlasmicStorageSandpit__RenderFunc(props) {
             className={classNames("__wab_instance", sty.navigationBar)}
           />
 
+          <Button
+            className={classNames("__wab_instance", sty.button__er0Xt)}
+            onClick={async event => {
+              const $steps = {};
+              $steps["runActionOnTestDataProvider"] = true
+                ? (() => {
+                    const actionArgs = {
+                      tplRef: "testDataProvider",
+                      action: "increment"
+                    };
+                    return (({ tplRef, action, args }) => {
+                      return $refs?.[tplRef]?.[action]?.(...(args ?? []));
+                    })?.apply(null, [actionArgs]);
+                  })()
+                : undefined;
+              if (
+                $steps["runActionOnTestDataProvider"] != null &&
+                typeof $steps["runActionOnTestDataProvider"] === "object" &&
+                typeof $steps["runActionOnTestDataProvider"].then === "function"
+              ) {
+                $steps["runActionOnTestDataProvider"] = await $steps[
+                  "runActionOnTestDataProvider"
+                ];
+              }
+            }}
+          >
+            {"Increment Counter"}
+          </Button>
+          <Button
+            className={classNames("__wab_instance", sty.button___4Wwt1)}
+            onClick={async event => {
+              const $steps = {};
+              $steps["runActionOnTestDataProvider"] = true
+                ? (() => {
+                    const actionArgs = {
+                      tplRef: "testDataProvider",
+                      action: "uploadFile"
+                    };
+                    return (({ tplRef, action, args }) => {
+                      return $refs?.[tplRef]?.[action]?.(...(args ?? []));
+                    })?.apply(null, [actionArgs]);
+                  })()
+                : undefined;
+              if (
+                $steps["runActionOnTestDataProvider"] != null &&
+                typeof $steps["runActionOnTestDataProvider"] === "object" &&
+                typeof $steps["runActionOnTestDataProvider"].then === "function"
+              ) {
+                $steps["runActionOnTestDataProvider"] = await $steps[
+                  "runActionOnTestDataProvider"
+                ];
+              }
+            }}
+          >
+            {"Upload File"}
+          </Button>
           <TestDataProvider
             data-plasmic-name={"testDataProvider"}
             data-plasmic-override={overrides.testDataProvider}
+            bucketName={"testBucket"}
             className={classNames("__wab_instance", sty.testDataProvider)}
+            instanceName={"testInstance"}
+            ref={ref => {
+              $refs["testDataProvider"] = ref;
+            }}
           >
             <DataCtxReader__>
               {$ctx => (
@@ -106,7 +168,7 @@ function PlasmicStorageSandpit__RenderFunc(props) {
                   <React.Fragment>
                     {(() => {
                       try {
-                        return undefined;
+                        return $ctx.testInstance.count;
                       } catch (e) {
                         if (
                           e instanceof TypeError ||
