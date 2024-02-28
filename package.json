@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@plasmicapp/cli": "^0.1.326",
-    "@plasmicapp/react-web": "^0.2.318",
+    "@plasmicapp/react-web": "^0.2.321",
     "@plasmicpkgs/antd5": "^0.0.210",
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/ssr": "^0.0.10",

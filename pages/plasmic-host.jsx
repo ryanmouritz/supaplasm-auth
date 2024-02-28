@@ -390,7 +390,11 @@ registerComponent(TestDataProvider, {
     },
     uploadFile : {
       description: "Uploads a file to Supabase Storage",
-      argTypes: []
+      argTypes: [
+        { name: "path", type: "string", displayName: "Upload path"},
+        { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
+        { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
+      ]
     }
   },
   importPath: "./components/TestDataProvider",

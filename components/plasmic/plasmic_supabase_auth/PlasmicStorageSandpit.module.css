@@ -58,15 +58,32 @@
   width: auto;
   height: 1em;
 }
-.testDataProvider:global(.__wab_instance) {
+.testStorageProvider:global(.__wab_instance) {
   max-width: 100%;
   object-fit: cover;
   position: relative;
 }
-.text {
+.text__zuZt {
   position: relative;
   width: 100%;
   height: auto;
   max-width: 100%;
+  color: var(--token-VY6DggwR9lvs);
+  min-width: 0;
+}
+.text__g7Fns {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  color: var(--token-U2IgSncNyCpY);
+  min-width: 0;
+}
+.text__iz66Z {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  color: var(--token-Bo2_tT25lwh4);
   min-width: 0;
 }
