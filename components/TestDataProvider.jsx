@@ -24,9 +24,7 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         ) => {
 
             const supabase = createClient(); // establish the Supabase client
-            
-            setIsLoading(true); // update loading state PRIOR to fetch
-            
+                        
             const { data, error } = await supabase
             .storage
             .from(bucketName)
@@ -38,11 +36,9 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
                 }
             )
             if (error) {
-                setIsLoading(false) // reset loading state if fetch failed, then rethrow the error
                 throw error;
             }
             setData(data)
-            setIsLoading(false) // reset loading state if fetch was successful
         },
         [data, bucketName]
     );
@@ -52,10 +48,14 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         () => {
             return {
                 uploadFile: async (path, base64FileData, upsert) => {
+                    setIsLoading(true)
                     setData(null)
                     setError(null)
                     uploadFile (path, base64FileData, upsert)
-                    .catch((err) => setError(getErrMsg(err)));
+                    .catch((err) => setError(getErrMsg(err)))
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
                 }
             };
         }
