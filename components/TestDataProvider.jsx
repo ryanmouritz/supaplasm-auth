@@ -43,6 +43,33 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         [data, bucketName]
     );
 
+    const replaceFile = useCallback( 
+        async (
+            path, 
+            base64FileData, 
+            upsert
+        ) => {
+
+            const supabase = createClient(); // establish the Supabase client
+                        
+            const { data, error } = await supabase
+            .storage
+            .from(bucketName)
+            .update(
+                path, 
+                decode(base64FileData), 
+                {
+                    upsert: upsert
+                }
+            )
+            if (error) {
+                throw error;
+            }
+            setData(data)
+        },
+        [data, bucketName]
+    );
+
     useImperativeHandle(
         ref,
         () => {
@@ -51,12 +78,23 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
                     setIsLoading(true)
                     setData(null)
                     setError(null)
-                    uploadFile (path, base64FileData, upsert)
+                    uploadFile(path, base64FileData, upsert)
                     .catch((err) => setError(getErrMsg(err)))
                     .finally(() => {
                         setIsLoading(false)
                     })
-                }
+                },
+
+                replaceFile: async (path, base64FileData, upsert) => {
+                    setIsLoading(true)
+                    setData(null)
+                    setError(null)
+                    replaceFile(path, base64FileData, upsert)
+                    .catch((err) => setError(getErrMsg(err)))
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
+                },
             };
         }
     );

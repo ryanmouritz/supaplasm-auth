@@ -384,18 +384,22 @@ registerComponent(TestDataProvider, {
     }
   },
   refActions: {
-    increment: {
-      description: "Add one to the counter",
-      argTypes: []
-    },
     uploadFile : {
-      description: "Uploads a file to Supabase Storage",
+      description: "Uploads a file to an existing bucket.",
       argTypes: [
-        { name: "path", type: "string", displayName: "Upload path"},
+        { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
         { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
       ]
-    }
+    },
+    replaceFile : {
+      description: "Replaces an existing file at the specified path with a new one.",
+      argTypes: [
+        { name: "path", type: "string", displayName: "Upload path (including file name)"},
+        { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
+        { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
+      ]
+    },
   },
   importPath: "./components/TestDataProvider",
   isDefaultExport: false,
