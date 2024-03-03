@@ -400,6 +400,40 @@ registerComponent(TestDataProvider, {
         { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
       ]
     },
+    moveFile : {
+      description: "Moves an existing file to a new path in the same bucket.",
+      argTypes: [
+        { name: "fromPath", type: "string", displayName: "From path (including current file name)"},
+        { name: "toPath", type: "string", displayName: "To data (including new file name)"},
+      ]
+    },
+    copyFile : {
+      description: "Copies an existing file to a new path in the same bucket.",
+      argTypes: [
+        { name: "fromPath", type: "string", displayName: "From path (including current file name)"},
+        { name: "toPath", type: "string", displayName: "To data (including new file name)"},
+      ]
+    },
+    deleteFiles : {
+      description: "Deletes specified files within the same bucket",
+      argTypes: [
+        { name: "paths", type: "array", displayName: "Paths to delete (array of paths, including current file name)"},
+      ]
+    },
+    listFiles: {
+      description: "Lists all the files within a bucket.",
+      argTypes: [
+        { name: "path", type: "string", displayName: "Folder path (optional)"},
+        { name: "limit", type: "number", displayName: "Number of files to return (optional). Default = 100"},
+        { name: "offset", type: "number", displayName: "Offset/Starting position (optional). Default = 0" },
+        { name: "sortBy", type: "object", displayName: "Sort by column (optional). Object like { column: 'name', order: 'asc' }" },
+        //{ name: "search", type: "string", displayName: "Search string to filter files by (optional)" },
+      ]
+    },
+    emptyBucket : {
+      description: "Removes all objects inside a single bucket.",
+      argTypes: []
+    },
   },
   importPath: "./components/TestDataProvider",
   isDefaultExport: false,
