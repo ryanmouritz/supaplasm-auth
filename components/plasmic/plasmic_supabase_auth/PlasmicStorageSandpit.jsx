@@ -17,10 +17,7 @@ import {
   deriveRenderOpts,
   useCurrentUser
 } from "@plasmicapp/react-web";
-import {
-  DataCtxReader as DataCtxReader__,
-  useDataEnv
-} from "@plasmicapp/react-web/lib/host";
+import { useDataEnv } from "@plasmicapp/react-web/lib/host";
 import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
 import { TestDataProvider } from "../../TestDataProvider"; // plasmic-import: Dtk_LXGErFfR/codeComponent
 import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
@@ -97,82 +94,37 @@ function PlasmicStorageSandpit__RenderFunc(props) {
             ref={ref => {
               $refs["testDataProvider"] = ref;
             }}
-          >
-            <DataCtxReader__>
-              {$ctx => (
-                <React.Fragment>
-                  <Button
-                    data-plasmic-name={"button"}
-                    data-plasmic-override={overrides.button}
-                    className={classNames("__wab_instance", sty.button)}
-                    onClick={async event => {
-                      const $steps = {};
-                      $steps["runActionOnTestDataProvider"] = true
-                        ? (() => {
-                            const actionArgs = {
-                              tplRef: "testDataProvider",
-                              action: "listFiles",
-                              args: [
-                                ``,
-                                100,
-                                0,
-                                { column: "name", order: "desc" },
-                                "somestring"
-                              ]
-                            };
-                            return (({ tplRef, action, args }) => {
-                              return $refs?.[tplRef]?.[action]?.(
-                                ...(args ?? [])
-                              );
-                            })?.apply(null, [actionArgs]);
-                          })()
-                        : undefined;
-                      if (
-                        $steps["runActionOnTestDataProvider"] != null &&
-                        typeof $steps["runActionOnTestDataProvider"] ===
-                          "object" &&
-                        typeof $steps["runActionOnTestDataProvider"].then ===
-                          "function"
-                      ) {
-                        $steps["runActionOnTestDataProvider"] = await $steps[
-                          "runActionOnTestDataProvider"
-                        ];
-                      }
-                    }}
-                  >
-                    {"List files"}
-                  </Button>
-                  <div
-                    data-plasmic-name={"text"}
-                    data-plasmic-override={overrides.text}
-                    className={classNames(
-                      projectcss.all,
-                      projectcss.__wab_text,
-                      sty.text
-                    )}
-                  >
-                    <React.Fragment>
-                      {(() => {
-                        try {
-                          return JSON.stringify(
-                            $ctx["Test Data Provider"].data
-                          );
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return "";
-                          }
-                          throw e;
-                        }
-                      })()}
-                    </React.Fragment>
-                  </div>
-                </React.Fragment>
-              )}
-            </DataCtxReader__>
-          </TestDataProvider>
+          />
+
+          <Button
+            data-plasmic-name={"button"}
+            data-plasmic-override={overrides.button}
+            className={classNames("__wab_instance", sty.button)}
+            onClick={async event => {
+              const $steps = {};
+              $steps["runActionOnTestDataProvider"] = true
+                ? (() => {
+                    const actionArgs = {
+                      tplRef: "testDataProvider",
+                      action: "downloadFile",
+                      args: ["potato.jpg", false, true, 50, 50, 50, "fill"]
+                    };
+                    return (({ tplRef, action, args }) => {
+                      return $refs?.[tplRef]?.[action]?.(...(args ?? []));
+                    })?.apply(null, [actionArgs]);
+                  })()
+                : undefined;
+              if (
+                $steps["runActionOnTestDataProvider"] != null &&
+                typeof $steps["runActionOnTestDataProvider"] === "object" &&
+                typeof $steps["runActionOnTestDataProvider"].then === "function"
+              ) {
+                $steps["runActionOnTestDataProvider"] = await $steps[
+                  "runActionOnTestDataProvider"
+                ];
+              }
+            }}
+          />
         </div>
       </div>
     </React.Fragment>
@@ -180,11 +132,10 @@ function PlasmicStorageSandpit__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "navigationBar", "testDataProvider", "button", "text"],
+  root: ["root", "navigationBar", "testDataProvider", "button"],
   navigationBar: ["navigationBar"],
-  testDataProvider: ["testDataProvider", "button", "text"],
-  button: ["button"],
-  text: ["text"]
+  testDataProvider: ["testDataProvider"],
+  button: ["button"]
 };
 
 function makeNodeComponent(nodeName) {
@@ -222,7 +173,6 @@ export const PlasmicStorageSandpit = Object.assign(
     navigationBar: makeNodeComponent("navigationBar"),
     testDataProvider: makeNodeComponent("testDataProvider"),
     button: makeNodeComponent("button"),
-    text: makeNodeComponent("text"),
     // Metadata about props expected for PlasmicStorageSandpit
     internalVariantProps: PlasmicStorageSandpit__VariantProps,
     internalArgProps: PlasmicStorageSandpit__ArgProps,

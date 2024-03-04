@@ -392,6 +392,14 @@ registerComponent(TestDataProvider, {
         { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
       ]
     },
+    downloadFile : {
+      description: "Downloads a file from a private bucket. For public buckets, make a request to the URL returned from 'getPublicUrl' instead or derive the URL.",
+      argTypes: [
+        { name: "path", type: "string", displayName: "Path and filename to download"},
+        { name: "optimization", type: "boolean", displayName: "Automatic image optimization (WebP)"},
+      ]
+    },
+
     replaceFile : {
       description: "Replaces an existing file at the specified path with a new one.",
       argTypes: [

@@ -4,7 +4,6 @@ import createClient from '@/utils/supabase/component';
 import { decode } from "base64-arraybuffer";
 import getErrMsg from "@/utils/getErrMsg";
 
-
 export const TestDataProvider = forwardRef(function TestDataProvider(props, ref) {
     const { children, className, instanceName, bucketName } = props;
 
@@ -43,6 +42,57 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         [data, bucketName]
     );
 
+    // Download a file
+    // Downloads a file from a private bucket. For public buckets, make a request to the URL returned from getPublicUrl instead.
+    const downloadFile = useCallback( 
+        async (
+            path, 
+            optimization,
+        ) => {
+
+            const supabase = createClient(); // establish the Supabase client
+
+            const format = optimization ? null : "origin"; // Specify the format of the image requested. When using 'origin' we force the format to be the same as the original image. When this option is not passed in, images are optimized to modern image formats like Webp.
+
+            let transform = Object.assign({},
+                format && { format: format }
+            )
+
+            let options = Object.assign({},
+                transform &&
+                Object.keys(transform).length !== 0 &&
+                transform.constructor === Object && 
+                { transform: transform }
+            )
+            
+            console.log(JSON.stringify(options))
+
+            let filename = path.includes("/") ? path.substring(path.lastIndexOf('/') + 1) : path
+
+            const { data, error } = await supabase
+            .storage
+            .from(bucketName)
+            .download(
+                path, options
+            )
+            if (error) {
+                throw error;
+            }
+
+            setData(data) 
+                 
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+                var url = window.URL.createObjectURL(data);
+                a.href = url;
+                a.download = filename;
+                a.click();
+                window.URL.revokeObjectURL(url); 
+        },
+        [data, bucketName]
+    );
+    
     // Replace an existing file
     // Replaces an existing file at the specified path with a new one.
     const replaceFile = useCallback( 
@@ -206,6 +256,17 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
                     setData(null)
                     setError(null)
                     uploadFile(path, base64FileData, upsert)
+                    .catch((err) => setError(getErrMsg(err)))
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
+                },
+
+                downloadFile: async (path, optimization, height, width, quality, resizeMode) => {
+                    setIsLoading(true)
+                    setData(null)
+                    setError(null)
+                    downloadFile(path, optimization, height, width, quality, resizeMode)
                     .catch((err) => setError(getErrMsg(err)))
                     .finally(() => {
                         setIsLoading(false)
