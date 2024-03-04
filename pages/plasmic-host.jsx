@@ -350,7 +350,7 @@ registerComponent(SupabaseStorageProvider, {
       argTypes: [
         { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
-        { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
+        { name: "upsert", type: "boolean", displayName: "Allow overwrite (optional). Default = false."}
         // cacheControl property has been intentionally not included
       ]
     },
@@ -358,7 +358,7 @@ registerComponent(SupabaseStorageProvider, {
       description: "Downloads a file from a private bucket. For public buckets, make a request to the URL returned from 'getPublicUrl' instead or derive the URL.",
       argTypes: [
         { name: "path", type: "string", displayName: "Path and filename to download"},
-        { name: "optimization", type: "boolean", displayName: "Automatic image optimization (WebP)"},
+        { name: "optimization", type: "boolean", displayName: "Automatic image optimization (WebP) (optional). Default = true."},
         // other transform properties have been intentinoally not included as they are currently in beta/require pro or enterprise tier supabase
       ]
     },
@@ -368,7 +368,7 @@ registerComponent(SupabaseStorageProvider, {
       argTypes: [
         { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
-        { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
+        { name: "upsert", type: "boolean", displayName: "Allow overwrite (optional). Default = false."}
       ]
     },
     moveFile : {
