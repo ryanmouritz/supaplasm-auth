@@ -6,14 +6,14 @@ import { parse, serialize } from 'cookie';
 //In plasmic studio / preview setting cookies does not error, but the value does not stick
 //If cookies won't work, we'll instead save session info into local storage
 function cookiesAvailable() {
-  document.cookie = 'testCookie=testValue';
+  document.cookie = 'studioEnv=false';
   const cookies = parse(document.cookie);
-  const testCookieRefetched = cookies['testCookie'];
+  const testCookieRefetched = cookies['studioEnv'];
 
   if(testCookieRefetched) {
     //Cookie setting works. We're not in plasmic studio
     //Delete the unused cookie
-    document.cookie = "testCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "studioEnv=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     return true;
   } else {
     //Cookie setting doesn't work. We're in plasmic studio
