@@ -26,24 +26,3 @@
   max-width: 100%;
   position: relative;
 }
-.testDataProvider:global(.__wab_instance) {
-  max-width: 100%;
-  object-fit: cover;
-  position: relative;
-}
-.button:global(.__wab_instance) {
-  max-width: 100%;
-  position: relative;
-}
-.svg__d9XlA {
-  position: relative;
-  object-fit: cover;
-  width: auto;
-  height: 1em;
-}
-.svg__fG6Q {
-  position: relative;
-  object-fit: cover;
-  width: auto;
-  height: 1em;
-}

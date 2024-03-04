@@ -645,28 +645,22 @@
           "componentImportPath": "@plasmicapp/react-web/lib/data-sources"
         },
         {
-          "id": "ad33TL8OGqaY",
-          "name": "SupabaseProvider",
-          "displayName": "SupabaseProvider",
-          "componentImportPath": "./components/SupabaseProvider"
-        },
-        {
           "id": "8M0gVUgo00jB",
           "name": "SupabaseUser",
           "displayName": "SupabaseUserGlobalContext",
           "componentImportPath": "./components/SupabaseUserProvider"
         },
         {
-          "id": "Dd7FsMHlZFLF",
+          "id": "GS80-e3BR1NK",
           "name": "SupabaseStorageProvider",
-          "displayName": "SupabaseStorageProvider",
+          "displayName": "Supabase Storage Provider",
           "componentImportPath": "./components/SupabaseStorageProvider"
         },
         {
-          "id": "Dtk_LXGErFfR",
-          "name": "TestDataProvider",
-          "displayName": "Test Data Provider",
-          "componentImportPath": "./components/TestDataProvider"
+          "id": "Pmya-wMLgzr-",
+          "name": "SupabaseProvider",
+          "displayName": "Supabase Data Provider",
+          "componentImportPath": "./components/SupabaseProvider"
         }
       ],
       "customFunctions": []

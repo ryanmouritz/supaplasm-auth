@@ -5,7 +5,6 @@ import { PlasmicCanvasContext, PlasmicCanvasHost, registerComponent, registerGlo
 import { SupabaseUser } from '../components/SupabaseUserProvider';
 import { SupabaseProvider } from '../components/SupabaseProvider';
 import { SupabaseStorageProvider } from '../components/SupabaseStorageProvider';
-import { TestDataProvider } from '../components/TestDataProvider';
 
 
 registerGlobalContext(SupabaseUser, {
@@ -78,7 +77,7 @@ registerGlobalContext(SupabaseUser, {
 });
 
 registerComponent(SupabaseProvider, {
-  name: "SupabaseProvider",
+  name: "Supabase Data Provider",
   providesData: true,
   props: {
     queryName: {
@@ -332,45 +331,7 @@ registerComponent(SupabaseProvider, {
 });
 
 registerComponent(SupabaseStorageProvider, {
-  name: "SupabaseStorageProvider",
-  providesData: true,
-  props: {
-    instanceName: {
-      type: "string",
-      required: true,
-    },
-    bucketName: {
-      type: "string",
-      required: true,
-    },
-    children: {
-      type: "slot",
-      defaultValue: [
-        {
-          type: "text",
-          value: "Supabase Storage Provider"
-        }
-      ]
-    }
-  },
-  refActions: {
-    uploadFile: {
-      description: "Upload a file",
-      argTypes: [
-        { name: "path", displayName: "Upload path", type: "string", description: "The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload." },
-        { name: "base64FileData", displayName: "File data (base64)", type: "string", description: "The body of the file to be stored in the bucket, encoded as base64." }, // The Supabase JS library does allow upload of a non-base64 fileBody, however unclear if possible to define the datatype in Plasmic component registration
-        //{ name: "cacheControl", displayName: "Cache duration in seconds (default: 3600)", type: "string", description: "The number of seconds the asset is cached in the browser and in the Supabase CDN. Defaults to 3600 seconds." },
-        { name: "upsert", displayName: "Allow overwrite", type: "boolean" }
-      ]
-    }
-  },
-  importPath: "./components/SupabaseStorageProvider",
-  isDefaultExport: false,
-  importName: "SupabaseStorageProvider"
-});
-
-registerComponent(TestDataProvider, {
-  name: "Test Data Provider",
+  name: "Supabase Storage Provider",
   providesData: true,
   props: {
     children: {
@@ -390,6 +351,7 @@ registerComponent(TestDataProvider, {
         { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
         { name: "upsert", type: "boolean", displayName: "Allow overwrite"}
+        // cacheControl property has been intentionally not included
       ]
     },
     downloadFile : {
@@ -397,6 +359,7 @@ registerComponent(TestDataProvider, {
       argTypes: [
         { name: "path", type: "string", displayName: "Path and filename to download"},
         { name: "optimization", type: "boolean", displayName: "Automatic image optimization (WebP)"},
+        // other transform properties have been intentinoally not included as they are currently in beta/require pro or enterprise tier supabase
       ]
     },
 
@@ -435,7 +398,7 @@ registerComponent(TestDataProvider, {
         { name: "limit", type: "number", displayName: "Number of files to return (optional). Default = 100"},
         { name: "offset", type: "number", displayName: "Offset/Starting position (optional). Default = 0" },
         { name: "sortBy", type: "object", displayName: "Sort by column (optional). Object like { column: 'name', order: 'asc' }" },
-        //{ name: "search", type: "string", displayName: "Search string to filter files by (optional)" },
+        { name: "search", type: "string", displayName: "Search string to filter files by (optional)" },
       ]
     },
     emptyBucket : {
@@ -443,9 +406,9 @@ registerComponent(TestDataProvider, {
       argTypes: []
     },
   },
-  importPath: "./components/TestDataProvider",
+  importPath: "./components/SupabaseStorageProvider",
   isDefaultExport: false,
-  importName: "TestDataProvider"
+  importName: "SupabaseStorageProvider"
 })
 
 export default function PlasmicHost() {

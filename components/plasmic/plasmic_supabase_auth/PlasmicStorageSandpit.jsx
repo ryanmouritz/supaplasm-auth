@@ -15,12 +15,11 @@ import {
   classNames,
   createPlasmicElementProxy,
   deriveRenderOpts,
-  useCurrentUser
+  useCurrentUser,
+  useDollarState
 } from "@plasmicapp/react-web";
 import { useDataEnv } from "@plasmicapp/react-web/lib/host";
 import NavigationBar from "../../NavigationBar"; // plasmic-import: 0W22cQAiPzr5/component
-import { TestDataProvider } from "../../TestDataProvider"; // plasmic-import: Dtk_LXGErFfR/codeComponent
-import Button from "../../Button"; // plasmic-import: v-0F0jw1XWqT/component
 import "@plasmicapp/react-web/lib/plasmic.css";
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic_antd_5_hostless.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
 import projectcss from "./plasmic_plasmic_supabase_auth.module.css"; // plasmic-import: nT5KcU3zyMS2wxZ8Rc3Mjw/projectcss
@@ -53,6 +52,24 @@ function PlasmicStorageSandpit__RenderFunc(props) {
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
   const currentUser = useCurrentUser?.() || {};
+  const stateSpecs = React.useMemo(
+    () => [
+      {
+        path: "result",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => "not set"
+      }
+    ],
+
+    [$props, $ctx, $refs]
+  );
+  const $state = useDollarState(stateSpecs, {
+    $props,
+    $ctx,
+    $queries: {},
+    $refs
+  });
   return (
     <React.Fragment>
       <Head></Head>
@@ -84,47 +101,6 @@ function PlasmicStorageSandpit__RenderFunc(props) {
             data-plasmic-override={overrides.navigationBar}
             className={classNames("__wab_instance", sty.navigationBar)}
           />
-
-          <TestDataProvider
-            data-plasmic-name={"testDataProvider"}
-            data-plasmic-override={overrides.testDataProvider}
-            bucketName={"avatars"}
-            className={classNames("__wab_instance", sty.testDataProvider)}
-            instanceName={"Test Data Provider"}
-            ref={ref => {
-              $refs["testDataProvider"] = ref;
-            }}
-          />
-
-          <Button
-            data-plasmic-name={"button"}
-            data-plasmic-override={overrides.button}
-            className={classNames("__wab_instance", sty.button)}
-            onClick={async event => {
-              const $steps = {};
-              $steps["runActionOnTestDataProvider"] = true
-                ? (() => {
-                    const actionArgs = {
-                      tplRef: "testDataProvider",
-                      action: "downloadFile",
-                      args: ["potato.jpg", false, true, 50, 50, 50, "fill"]
-                    };
-                    return (({ tplRef, action, args }) => {
-                      return $refs?.[tplRef]?.[action]?.(...(args ?? []));
-                    })?.apply(null, [actionArgs]);
-                  })()
-                : undefined;
-              if (
-                $steps["runActionOnTestDataProvider"] != null &&
-                typeof $steps["runActionOnTestDataProvider"] === "object" &&
-                typeof $steps["runActionOnTestDataProvider"].then === "function"
-              ) {
-                $steps["runActionOnTestDataProvider"] = await $steps[
-                  "runActionOnTestDataProvider"
-                ];
-              }
-            }}
-          />
         </div>
       </div>
     </React.Fragment>
@@ -132,10 +108,8 @@ function PlasmicStorageSandpit__RenderFunc(props) {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "navigationBar", "testDataProvider", "button"],
-  navigationBar: ["navigationBar"],
-  testDataProvider: ["testDataProvider"],
-  button: ["button"]
+  root: ["root", "navigationBar"],
+  navigationBar: ["navigationBar"]
 };
 
 function makeNodeComponent(nodeName) {
@@ -171,8 +145,6 @@ export const PlasmicStorageSandpit = Object.assign(
   {
     // Helper components rendering sub-elements
     navigationBar: makeNodeComponent("navigationBar"),
-    testDataProvider: makeNodeComponent("testDataProvider"),
-    button: makeNodeComponent("button"),
     // Metadata about props expected for PlasmicStorageSandpit
     internalVariantProps: PlasmicStorageSandpit__VariantProps,
     internalArgProps: PlasmicStorageSandpit__ArgProps,
