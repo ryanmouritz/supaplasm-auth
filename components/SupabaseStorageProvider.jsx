@@ -3,8 +3,9 @@ import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import createClient from '@/utils/supabase/component';
 import { decode } from "base64-arraybuffer";
 import getErrMsg from "@/utils/getErrMsg";
+import { v4 as uuidv4 } from 'uuid';
 
-export const TestDataProvider = forwardRef(function TestDataProvider(props, ref) {
+export const SupabaseStorageProvider = forwardRef(function TestDataProvider(props, ref) {
     const { children, className, instanceName, bucketName } = props;
 
     // setup state
@@ -19,25 +20,84 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         async (
             path, 
             base64FileData, 
+            contentType,
             upsert
         ) => {
 
             const supabase = createClient(); // establish the Supabase client
-                        
+            
+            let options = Object.assign({},
+                contentType && { contentType: contentType }, //currently, we let the client specify the MIME-type. As it stands, if the client is manipulated, a user could upload a different file type to the MIME type they specify, circumventing Supabase file type restrictions. In future, it is suggested to derive the MIME-type in the backend.
+                upsert && { upsert: upsert }
+            )
+
             const { data, error } = await supabase
             .storage
             .from(bucketName)
             .upload(
                 path, 
                 decode(base64FileData), 
-                {
-                    upsert: upsert
-                }
+                options
             )
             if (error) {
                 throw error;
             }
             setData(data)
+        },
+        [data, bucketName]
+    );
+
+    const uploadManyFiles = useCallback(
+        async (
+            fileDataList,
+            folder,
+            upsert,
+            replaceFilename
+        ) => {
+            const supabase = createClient();
+            const uploadResults = [];
+    
+            for (const file of fileDataList) {
+                let path = folder + "/" + (replaceFilename ? uuidv4() : file.name);
+                let resultItem = {
+                    input: { filename: file.name },
+                    target: {
+                        path: path,
+                        type: file.type
+                    },
+                    result: {
+                        status: "",
+                        data: null,
+                        error: null
+                    }
+                };
+                
+                let options = Object.assign({},
+                    file.type && { contentType: file.type },
+                    upsert && { upsert: upsert }
+                )
+
+                try {
+                    const { data, error } = await supabase
+                        .storage
+                        .from(bucketName)
+                        .upload(
+                            path,
+                            decode(file.contents),
+                            options
+                        );
+                    if (error) throw new Error(getErrMsg(error))
+
+                    resultItem.result.status = "success";
+                    resultItem.result.data = data;
+                } catch (err) {
+                    resultItem.result.status = "error";
+                    resultItem.result.error = getErrMsg(error || err);
+                }
+    
+                uploadResults.push(resultItem);
+            }
+            setData(uploadResults);
         },
         [data, bucketName]
     );
@@ -98,11 +158,17 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
     const replaceFile = useCallback( 
         async (
             path, 
-            base64FileData, 
+            base64FileData,
+            contentType, 
             upsert
         ) => {
 
             const supabase = createClient(); // establish the Supabase client
+
+            let options = Object.assign({},
+                contentType && { contentType: contentType },
+                upsert && { upsert: upsert }
+            )
                         
             const { data, error } = await supabase
             .storage
@@ -110,9 +176,7 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
             .update(
                 path, 
                 decode(base64FileData), 
-                {
-                    upsert: upsert
-                }
+                options
             )
             if (error) {
                 throw error;
@@ -252,11 +316,23 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
         ref,
         () => {
             return {
-                uploadFile: async (path, base64FileData, upsert) => {
+                uploadFile: async (path, base64FileData, contentType, upsert) => {
                     setIsLoading(true)
                     setData(null)
                     setError(null)
-                    uploadFile(path, base64FileData, upsert)
+                    uploadFile(path, base64FileData, contentType, upsert)
+                    .catch((err) => setError(getErrMsg(err)))
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
+                    return { data, error }
+                },
+
+                uploadManyFiles: async (fileDataList, folder, upsert, replaceFilename) => {
+                    setIsLoading(true)
+                    setData(null)
+                    setError(null)
+                    uploadManyFiles(fileDataList, folder, upsert, replaceFilename)
                     .catch((err) => setError(getErrMsg(err)))
                     .finally(() => {
                         setIsLoading(false)
@@ -276,11 +352,11 @@ export const TestDataProvider = forwardRef(function TestDataProvider(props, ref)
                     return { data, error }
                 },
 
-                replaceFile: async (path, base64FileData, upsert) => {
+                replaceFile: async (path, base64FileData, contentType, upsert) => {
                     setIsLoading(true)
                     setData(null)
                     setError(null)
-                    replaceFile(path, base64FileData, upsert)
+                    replaceFile(path, base64FileData, contentType, upsert)
                     .catch((err) => setError(getErrMsg(err)))
                     .finally(() => {
                         setIsLoading(false)

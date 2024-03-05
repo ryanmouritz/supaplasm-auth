@@ -350,8 +350,18 @@ registerComponent(SupabaseStorageProvider, {
       argTypes: [
         { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
+        { name: "contentType", type: "string", displayName: "Content Type / MIME type"},
         { name: "upsert", type: "boolean", displayName: "Allow overwrite (optional). Default = false."}
         // cacheControl property has been intentionally not included
+      ]
+    },
+    uploadManyFiles : {
+      description: "Upload a list of files to an existing bucket (assumes array of objects with shape { name: 'filename.ext', type: 'MIME type', contents: 'base64string'}",
+      argTypes: [
+        { name: "fileDataList", type: "array", displayName: "Array of objects with shape { name: 'filename.ext', type: 'MIME type', contents: 'base64string'}" }, 
+        { name: "folder", type: "string", displayName: "The folder/prefix to store each file in." }, 
+        { name: "upsert", type: "boolean", displayName: "Allow overwrite (optional). Default = false." },
+        { name: "replaceFilename", type: "boolean", displayName: "Replace filename with UUID"}
       ]
     },
     downloadFile : {
@@ -362,12 +372,12 @@ registerComponent(SupabaseStorageProvider, {
         // other transform properties have been intentinoally not included as they are currently in beta/require pro or enterprise tier supabase
       ]
     },
-
     replaceFile : {
       description: "Replaces an existing file at the specified path with a new one.",
       argTypes: [
         { name: "path", type: "string", displayName: "Upload path (including file name)"},
         { name: "base64FileData", type: "string", displayName: "File data (base64 encoded string)"},
+        { name: "contentType", type: "string", displayName: "Content Type / MIME type"},
         { name: "upsert", type: "boolean", displayName: "Allow overwrite (optional). Default = false."}
       ]
     },
