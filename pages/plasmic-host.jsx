@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PlasmicCanvasContext, PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
+import { PlasmicCanvasHost, registerComponent, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
 
 //custom components
 import { SupabaseUser } from '../components/SupabaseUserProvider';
@@ -424,44 +424,3 @@ registerComponent(SupabaseStorageProvider, {
 export default function PlasmicHost() {
   return <PlasmicCanvasHost />;
 }
-
-/*
-registerComponent(ProductCard, {
-  name: "ProductCard",
-  props: {
-    // Pass in arbitrary content in the visual editing canvas
-    children: 'slot',
-    
-    // You can have any number of slots.
-    header: 'slot',
-    
-    // Simple scalar props
-    productId: 'string',
-    darkMode: 'boolean',
-    
-    // Some props can take an enum of options
-    elevation: {
-      type: 'choice',
-      options: ['high', 'medium', 'flat']
-    }
-    
-    // Some props can take an arbitrary JSON object
-    config: 'object',
-    
-    // Some props can have dynamic configurations
-    headerColor: {
-      type: 'choice',
-      
-      // Hide the 'color' prop if no header content
-      hidden: (props) => !props.header,
-      
-      // Offer different choices depending on if darkMode is on
-      options: (props) => props.darkMode ? ['black', 'blue'] : ['yellow', 'green']
-    }
-  },
-  
-  // Specify how generated Plasmic code should import this component;
-  // path is relative to srcDir
-  importPath: './components/ProductCard',
-});
-*/
