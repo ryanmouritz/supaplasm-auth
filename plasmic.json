@@ -594,20 +594,6 @@
           "scheme": "blackbox",
           "componentType": "component",
           "plumeType": "text-input"
-        },
-        {
-          "id": "WI_OIixjGUBY",
-          "name": "StorageSandpit",
-          "type": "managed",
-          "projectId": "nT5KcU3zyMS2wxZ8Rc3Mjw",
-          "renderModuleFilePath": "plasmic/plasmic_supabase_auth/PlasmicStorageSandpit.jsx",
-          "importSpec": {
-            "modulePath": "../pages/storage-sandpit.jsx"
-          },
-          "cssFilePath": "plasmic/plasmic_supabase_auth/PlasmicStorageSandpit.module.css",
-          "scheme": "blackbox",
-          "componentType": "page",
-          "path": "/storage-sandpit"
         }
       ],
       "icons": [
@@ -696,6 +682,6 @@
   "nextjsConfig": {
     "pagesDir": "../pages"
   },
-  "cliVersion": "0.1.326",
-  "$schema": "https://unpkg.com/@plasmicapp/cli@0.1.326/dist/plasmic.schema.json"
+  "cliVersion": "0.1.327",
+  "$schema": "https://unpkg.com/@plasmicapp/cli@0.1.327/dist/plasmic.schema.json"
 }
